@@ -7,7 +7,6 @@ Created on Wed Mar  9 14:21:04 2022
 
 from view import *
 
-global main
-main.state("zoomed")
+main.state("zoomed") #permet d'avoir la fenetre du jeu en fullscreen d'ai le lancement
 show()
 main.mainloop()
