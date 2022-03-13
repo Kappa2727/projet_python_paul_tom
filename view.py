@@ -51,6 +51,67 @@ def PlacementBateaux():
             CAN_PlacementBateaux.create_rectangle(col * CASE_TAIL_Placement,row * CASE_TAIL_Placement,col * CASE_TAIL_Placement + CASE_TAIL_Placement,row * CASE_TAIL_Placement + CASE_TAIL_Placement,outline="black") #grille du placement des bateaux
     BoutonCommencer= Button(frame2, width=10, height=2, command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
+    Bateau1= Canvas(frame2,width=(5*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau2= Canvas(frame2,width=(4*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau3= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau4= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau5= Canvas(frame2,width=(2*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau1.place(relx=0.5, rely=0.10)
+    Bateau2.place(relx=0.5, rely=0.20)
+    Bateau3.place(relx=0.5, rely=0.30)
+    Bateau4.place(relx=0.5, rely=0.40)
+    Bateau5.place(relx=0.5, rely=0.50)
+    Bateau1.bind("<Button-3>", RotationBateau5cases)
+    Bateau2.bind("<Button-3>", RotationBateau4cases)
+    Bateau3.bind("<Button-3>", RotationBateau3cases)
+    Bateau4.bind("<Button-3>", RotationBateau3cases_2)
+    Bateau5.bind("<Button-3>", RotationBateau2cases)
+    
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+def RotationBateau5cases(event):
+    Comptb5+=1
+    if Comptb5%2!=0:
+        Bateau1= Canvas(frame2,width=CASE_TAIL_Placement,height=(5*CASE_TAIL_Placement), bg="black",highlightthickness=0)
+    else:
+        Bateau1= Canvas(frame2,width=(5*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau1.place(relx=0.5, rely=0.10)
+
+def RotationBateau4cases(event):
+    Comptb4+=1
+    if Comptb4%2!=0:
+        Bateau2= Canvas(frame2,width=CASE_TAIL_Placement,height=(4*CASE_TAIL_Placement), bg="black",highlightthickness=0)
+    else:
+        Bateau2= Canvas(frame2,width=(4*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau2.place(relx=0.5, rely=0.20)
+   
+
+def RotationBateau3cases(event):
+    Comptb3+=1
+    if Comptb3%2!=0:
+        Bateau3= Canvas(frame2,width=CASE_TAIL_Placement,height=(3*CASE_TAIL_Placement), bg="black",highlightthickness=0)
+    else:
+        Bateau3= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau3.place(relx=0.5, rely=0.30)
+
+def RotationBateau3cases_2(event):
+   Comptb3_2+=1
+   if Comptb3_2%2!=0:
+       Bateau4= Canvas(frame2,width=CASE_TAIL_Placement,height=(3*CASE_TAIL_Placement), bg="black",highlightthickness=0)
+   else:
+       Bateau4= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+   Bateau4.place(relx=0.5, rely=0.40)
+    
+def RotationBateau2cases(event):
+    Comptb5+=1
+    if Comptb5%2!=0:
+        Bateau5= Canvas(frame2,width=CASE_TAIL_Placement,height=(2*CASE_TAIL_Placement), bg="black",highlightthickness=0)
+    else:
+        Bateau5= Canvas(frame2,width=(2*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+    Bateau5.place(relx=0.5, rely=0.50)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
    
 def show():
     menu()

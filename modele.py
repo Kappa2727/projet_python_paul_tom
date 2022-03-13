@@ -45,6 +45,11 @@ global CANVA_TAIL_Placement #la taille des canvas utilisée pour la fenêtre du 
 global CASE_TAIL_Placement #la taille des cellules du canva pour le placement des bateaux (cad: taille des carrès de la grille )
 CANVA_TAIL_Placement = 540 #540, car c'est divisible par 9 et que c'est une taille convenable pour le placement des bateaux
 CASE_TAIL_Placement = CANVA_TAIL_Placement / 9 # 9, parce qu'il y'a 9 lignes et 9 colones dans une grille de bataille navale, donc on divise par 9 la taille du canva utilisé pour afficher la grille
+global Comptb5
+global Comptb4
+global Comptb3
+global Comptb3_2
+global Comptb2
 
 #-------------------------------------------------------------------------------------------------------------------------------
 
