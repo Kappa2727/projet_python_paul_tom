@@ -8,6 +8,8 @@ Created on Wed Mar  9 14:20:26 2022
 from modele import *
 
 
+
+
 def etablirplateau():
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
     fond.place(relx=0.5,rely=0.5,anchor=CENTER)
@@ -33,8 +35,8 @@ def OuvrirPlacementBateaux():
         
 def menu():
     frame1.pack() #permet de positionner la frame2 en avant, c'est a dire le menu du jeu
-    Boutonjouer= Button(frame1, width=10, height=2, command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
-    BoutonQuitter= Button(frame1, width=10, height=2, command=main.destroy) #un bouton qui permet de  fermer le jeu
+    Boutonjouer= Button(frame1, width=10, height=2,text="jouer", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
+    BoutonQuitter= Button(frame1, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
     Boutonjouer.place(relx=0.5, rely=0.40, anchor=CENTER)
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
     
@@ -49,19 +51,14 @@ def PlacementBateaux():
     for row in range(len(GRILLE_PlacementBateaux)):
         for col in range(len(GRILLE_PlacementBateaux[row])):
             CAN_PlacementBateaux.create_rectangle(col * CASE_TAIL_Placement,row * CASE_TAIL_Placement,col * CASE_TAIL_Placement + CASE_TAIL_Placement,row * CASE_TAIL_Placement + CASE_TAIL_Placement,outline="black") #grille du placement des bateaux
-    BoutonCommencer= Button(frame2, width=10, height=2, command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
+    BoutonCommencer= Button(frame2, width=10, height=2,text="commencer", command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
-    Bateau1= Canvas(frame2,width=(5*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau2= Canvas(frame2,width=(4*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau3= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau4= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau5= Canvas(frame2,width=(2*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
     Bateau1.place(relx=0.5, rely=0.10)
     Bateau2.place(relx=0.5, rely=0.20)
     Bateau3.place(relx=0.5, rely=0.30)
     Bateau4.place(relx=0.5, rely=0.40)
     Bateau5.place(relx=0.5, rely=0.50)
-    Bateau1.bind("<Button-3>", RotationBateau5cases)
+    Bateau1.bind("<Button-3>", RotationBateau5cases) # les boutons permettant de faire un rotation du bateau quand on fais click droit dessus
     Bateau2.bind("<Button-3>", RotationBateau4cases)
     Bateau3.bind("<Button-3>", RotationBateau3cases)
     Bateau4.bind("<Button-3>", RotationBateau3cases_2)
@@ -70,46 +67,31 @@ def PlacementBateaux():
 
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def RotationBateau5cases(event):
-    Comptb5+=1
-    if Comptb5%2!=0:
-        Bateau1= Canvas(frame2,width=CASE_TAIL_Placement,height=(5*CASE_TAIL_Placement), bg="black",highlightthickness=0)
-    else:
-        Bateau1= Canvas(frame2,width=(5*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau1.place(relx=0.5, rely=0.10)
+def RotationBateau5cases(event): #fonction permettant de retourner le bateau a 5 cases
+    Hauteur=Bateau1.winfo_height() #winfo_height permet d'enregistrer la hauteur du bateau choisis dans la variable Hauteur
+    Largeur=Bateau1.winfo_width() #winfo_width permet d'enregistrer la largeur du bateau choisis dans la variable Largeur
+    Bateau1.configure(width=Hauteur, height=Largeur)
 
-def RotationBateau4cases(event):
-    Comptb4+=1
-    if Comptb4%2!=0:
-        Bateau2= Canvas(frame2,width=CASE_TAIL_Placement,height=(4*CASE_TAIL_Placement), bg="black",highlightthickness=0)
-    else:
-        Bateau2= Canvas(frame2,width=(4*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau2.place(relx=0.5, rely=0.20)
+def RotationBateau4cases(event):#fonction permettant de retourner le bateau a 4 cases
+    Hauteur=Bateau2.winfo_height()
+    Largeur=Bateau2.winfo_width()
+    Bateau2.configure(width=Hauteur, height=Largeur)
    
 
-def RotationBateau3cases(event):
-    Comptb3+=1
-    if Comptb3%2!=0:
-        Bateau3= Canvas(frame2,width=CASE_TAIL_Placement,height=(3*CASE_TAIL_Placement), bg="black",highlightthickness=0)
-    else:
-        Bateau3= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau3.place(relx=0.5, rely=0.30)
+def RotationBateau3cases(event):#fonction permettant de retourner le bateau a 3 cases
+    Hauteur=Bateau3.winfo_height()
+    Largeur=Bateau3.winfo_width()
+    Bateau3.configure(width=Hauteur, height=Largeur)
 
-def RotationBateau3cases_2(event):
-   Comptb3_2+=1
-   if Comptb3_2%2!=0:
-       Bateau4= Canvas(frame2,width=CASE_TAIL_Placement,height=(3*CASE_TAIL_Placement), bg="black",highlightthickness=0)
-   else:
-       Bateau4= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-   Bateau4.place(relx=0.5, rely=0.40)
+def RotationBateau3cases_2(event):#fonction permettant de retourner le bateau a 3 cases(l'autre)
+   Hauteur=Bateau4.winfo_height()
+   Largeur=Bateau4.winfo_width()
+   Bateau4.configure(width=Hauteur, height=Largeur)
     
-def RotationBateau2cases(event):
-    Comptb5+=1
-    if Comptb5%2!=0:
-        Bateau5= Canvas(frame2,width=CASE_TAIL_Placement,height=(2*CASE_TAIL_Placement), bg="black",highlightthickness=0)
-    else:
-        Bateau5= Canvas(frame2,width=(2*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
-    Bateau5.place(relx=0.5, rely=0.50)
+def RotationBateau2cases(event):#fonction permettant de retourner le bateau a 2 cases
+    Hauteur=Bateau5.winfo_height()
+    Largeur=Bateau5.winfo_width()
+    Bateau5.configure(width=Hauteur, height=Largeur)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
    
