@@ -63,6 +63,7 @@ def PlacementBateaux():
     Bateau3.bind("<Button-3>", RotationBateau3cases)
     Bateau4.bind("<Button-3>", RotationBateau3cases_2)
     Bateau5.bind("<Button-3>", RotationBateau2cases)
+    Bateau1.bind("<B1-Motion>", deplacement)
     
 
 
@@ -94,6 +95,23 @@ def RotationBateau2cases(event):#fonction permettant de retourner le bateau a 2 
     Bateau5.configure(width=Hauteur, height=Largeur)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
-   
+def DefinirCoordXYSouris(event):
+    global main
+    CoordSourisX= event.x
+    CoordSourisY= event.y
+    print(CoordSourisX, CoordSourisY)
+    
+
+def deplacement(event):
+    xtruc=Bateau1.winfo_x()
+    ytruc=Bateau1.winfo_y()
+    dx= event.x
+    dy= event.y
+    print(xtruc+dx, ytruc+dy)
+    #On deplace la balle :
+    Bateau1.place(x=xtruc-dx, y=ytruc-dy)
+
+
+
 def show():
     menu()

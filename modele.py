@@ -31,7 +31,7 @@ frame3= Frame(main, width=1980,height=1080,bg="black")
 #-------------------------------------------------------------------------------------------------------------------------------
 
 """
-etablissement des variables globals pour le canva/grille allié et ennemi mais aussi pour le placement des bateaux
+etablissement des variables globals pour le canva/grille allié et ennemi mais aussi pour le placement et déplacement des bateaux
 """
 global CAN_ALLIE
 global GRILLE_ALLIE
@@ -59,6 +59,12 @@ Bateau2= Canvas(frame2,width=(4*CASE_TAIL_Placement),height=CASE_TAIL_Placement,
 Bateau3= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
 Bateau4= Canvas(frame2,width=(3*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
 Bateau5= Canvas(frame2,width=(2*CASE_TAIL_Placement),height=CASE_TAIL_Placement, bg="black",highlightthickness=0)
+
+global CoordSourisX
+global CoordSourisY
+
+global Bateau1x
+Bateau1x=
 
 #-------------------------------------------------------------------------------------------------------------------------------
 
