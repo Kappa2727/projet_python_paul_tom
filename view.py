@@ -53,7 +53,7 @@ def PlacementBateaux():
             CAN_PlacementBateaux.create_rectangle(col * CASE_TAIL_Placement,row * CASE_TAIL_Placement,col * CASE_TAIL_Placement + CASE_TAIL_Placement,row * CASE_TAIL_Placement + CASE_TAIL_Placement,outline="black") #grille du placement des bateaux
     BoutonCommencer= Button(frame2, width=10, height=2,text="commencer", command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
-    Bateau1.place(relx=0.5, rely=0.10)
+    Bateau1.place(x=990, y=0.10)
     Bateau2.place(relx=0.5, rely=0.20)
     Bateau3.place(relx=0.5, rely=0.30)
     Bateau4.place(relx=0.5, rely=0.40)
@@ -95,21 +95,13 @@ def RotationBateau2cases(event):#fonction permettant de retourner le bateau a 2 
     Bateau5.configure(width=Hauteur, height=Largeur)
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
-def DefinirCoordXYSouris(event):
-    global main
-    CoordSourisX= event.x
-    CoordSourisY= event.y
-    print(CoordSourisX, CoordSourisY)
-    
+def glisserB1(dx,dy):
+    Bateau1.place(x=dx, y=dy)
 
-def deplacement(event):
-    xtruc=Bateau1.winfo_x()
-    ytruc=Bateau1.winfo_y()
-    dx= event.x
-    dy= event.y
-    print(xtruc+dx, ytruc+dy)
-    #On deplace la balle :
-    Bateau1.place(x=xtruc-dx, y=ytruc-dy)
+def glissement(event):
+    a=event.x
+    b=event.y
+    
 
 
 
