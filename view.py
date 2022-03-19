@@ -46,63 +46,63 @@ def OuvrirLeCombat():
     etablirplateau() #appel la fonction permettant d'établir le plateau de la zone de combat navale
 
 def PlacementBateaux():
-    CAN_PlacementBateaux = Canvas(frame2,width=CANVA_TAIL_Placement,height=CANVA_TAIL_Placement,bg="white",highlightthickness=0) #canva utilisé pour le placement des bateaux
-    CAN_PlacementBateaux.place(relx=0.25,rely=0.5,anchor=CENTER)
-    for row in range(len(GRILLE_PlacementBateaux)):
-        for col in range(len(GRILLE_PlacementBateaux[row])):
-            CAN_PlacementBateaux.create_rectangle(col * CASE_TAIL_Placement,row * CASE_TAIL_Placement,col * CASE_TAIL_Placement + CASE_TAIL_Placement,row * CASE_TAIL_Placement + CASE_TAIL_Placement,outline="black") #grille du placement des bateaux
+    can_full_plac.pack()
     BoutonCommencer= Button(frame2, width=10, height=2,text="commencer", command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
-    Bateau1.place(x=990, y=0.10)
-    Bateau2.place(relx=0.5, rely=0.20)
-    Bateau3.place(relx=0.5, rely=0.30)
-    Bateau4.place(relx=0.5, rely=0.40)
-    Bateau5.place(relx=0.5, rely=0.50)
-    Bateau1.bind("<Button-3>", RotationBateau5cases) # les boutons permettant de faire un rotation du bateau quand on fais click droit dessus
-    Bateau2.bind("<Button-3>", RotationBateau4cases)
-    Bateau3.bind("<Button-3>", RotationBateau3cases)
-    Bateau4.bind("<Button-3>", RotationBateau3cases_2)
-    Bateau5.bind("<Button-3>", RotationBateau2cases)
-    Bateau1.bind("<B1-Motion>", deplacement)
-    
-
+    can_full_plac.bind("<B1-Motion>",glisser)
+    can_full_plac.bind("<Button-1>",clic)
+    can_full_plac.bind("<Button-3>",RotationBateau)
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-def RotationBateau5cases(event): #fonction permettant de retourner le bateau a 5 cases
-    Hauteur=Bateau1.winfo_height() #winfo_height permet d'enregistrer la hauteur du bateau choisis dans la variable Hauteur
-    Largeur=Bateau1.winfo_width() #winfo_width permet d'enregistrer la largeur du bateau choisis dans la variable Largeur
-    Bateau1.configure(width=Hauteur, height=Largeur)
-
-def RotationBateau4cases(event):#fonction permettant de retourner le bateau a 4 cases
-    Hauteur=Bateau2.winfo_height()
-    Largeur=Bateau2.winfo_width()
-    Bateau2.configure(width=Hauteur, height=Largeur)
-   
-
-def RotationBateau3cases(event):#fonction permettant de retourner le bateau a 3 cases
-    Hauteur=Bateau3.winfo_height()
-    Largeur=Bateau3.winfo_width()
-    Bateau3.configure(width=Hauteur, height=Largeur)
-
-def RotationBateau3cases_2(event):#fonction permettant de retourner le bateau a 3 cases(l'autre)
-   Hauteur=Bateau4.winfo_height()
-   Largeur=Bateau4.winfo_width()
-   Bateau4.configure(width=Hauteur, height=Largeur)
-    
-def RotationBateau2cases(event):#fonction permettant de retourner le bateau a 2 cases
-    Hauteur=Bateau5.winfo_height()
-    Largeur=Bateau5.winfo_width()
-    Bateau5.configure(width=Hauteur, height=Largeur)
-
+def RotationBateau(event): #fonction permettant de retourner le bateau a 5 cases
+    old[0]=event.x
+    old[1]=event.y
+    x1_1, y1_1, x2_1, y2_1 = can_full_plac.coords(Bateau1)
+    x1_2, y1_2, x2_2, y2_2 = can_full_plac.coords(Bateau2)
+    x1_3, y1_3, x2_3, y2_3 = can_full_plac.coords(Bateau3)
+    x1_4, y1_4, x2_4, y2_4 = can_full_plac.coords(Bateau4)
+    x1_5, y1_5, x2_5, y2_5 = can_full_plac.coords(Bateau5)
+    if (old[0] >= x1_1 and old[0] <= x2_1 and old[1] >= y1_1 and old[1] <= y2_1):
+        can_full_plac.coords(Bateau1, x1_1, y1_1, x1_1+(y2_1-y1_1), y1_1+(x2_1-x1_1))
+    if (old[0] >= x1_2 and old[0] <= x2_2 and old[1] >= y1_2 and old[1] <= y2_2):
+        can_full_plac.coords(Bateau2, x1_2, y1_2, x1_2+(y2_2-y1_2), y1_2+(x2_2-x1_2))
+    if (old[0] >= x1_3 and old[0] <= x2_3 and old[1] >= y1_3 and old[1] <= y2_3):
+        can_full_plac.coords(Bateau3, x1_3, y1_3, x1_3+(y2_3-y1_3), y1_3+(x2_3-x1_3))
+    if (old[0] >= x1_4 and old[0] <= x2_4 and old[1] >= y1_4 and old[1] <= y2_4):
+        can_full_plac.coords(Bateau4, x1_4, y1_4, x1_4+(y2_4-y1_4), y1_4+(x2_4-x1_4))
+    if (old[0] >= x1_5 and old[0] <= x2_5 and old[1] >= y1_5 and old[1] <= y2_5):
+        can_full_plac.coords(Bateau5, x1_5, y1_5, x1_5+(y2_5-y1_5), y1_5+(x2_5-x1_5))
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
-def glisserB1(dx,dy):
-    Bateau1.place(x=dx, y=dy)
+def clic(event):
+    old[0]=event.x
+    old[1]=event.y
 
-def glissement(event):
-    a=event.x
-    b=event.y
-    
-
+def glisser(event):
+    x1_1, y1_1, x2_1, y2_1 = can_full_plac.coords(Bateau1)
+    x1_2, y1_2, x2_2, y2_2 = can_full_plac.coords(Bateau2)
+    x1_3, y1_3, x2_3, y2_3 = can_full_plac.coords(Bateau3)
+    x1_4, y1_4, x2_4, y2_4 = can_full_plac.coords(Bateau4)
+    x1_5, y1_5, x2_5, y2_5 = can_full_plac.coords(Bateau5)
+    if (old[0] >= x1_1 and old[0] <= x2_1 and old[1] >= y1_1 and old[1] <= y2_1):
+        can_full_plac.move(Bateau1, event.x-old[0], event.y-old[1])
+        old[0]=event.x
+        old[1]=event.y
+    if (old[0] >= x1_2 and old[0] <= x2_2 and old[1] >= y1_2 and old[1] <= y2_2):
+        can_full_plac.move(Bateau2, event.x-old[0], event.y-old[1])
+        old[0]=event.x
+        old[1]=event.y
+    if (old[0] >= x1_3 and old[0] <= x2_3 and old[1] >= y1_3 and old[1] <= y2_3):
+        can_full_plac.move(Bateau3, event.x-old[0], event.y-old[1])
+        old[0]=event.x
+        old[1]=event.y
+    if (old[0] >= x1_4 and old[0] <= x2_4 and old[1] >= y1_4 and old[1] <= y2_4):
+        can_full_plac.move(Bateau4, event.x-old[0], event.y-old[1])
+        old[0]=event.x
+        old[1]=event.y
+    if (old[0] >= x1_5 and old[0] <= x2_5 and old[1] >= y1_5 and old[1] <= y2_5):
+        can_full_plac.move(Bateau5, event.x-old[0], event.y-old[1])
+        old[0]=event.x
+        old[1]=event.y
 
 
 def show():
