@@ -52,6 +52,7 @@ def PlacementBateaux():
     can_full_plac.bind("<B1-Motion>",glisser)
     can_full_plac.bind("<Button-1>",clic)
     can_full_plac.bind("<Button-3>",RotationBateau)
+    can_full_plac.bind("<ButtonRelease-1>",SlotagedesBateaux)
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def RotationBateau(event): #fonction permettant de retourner le bateau a 5 cases
@@ -103,6 +104,105 @@ def glisser(event):
         can_full_plac.move(Bateau5, event.x-old[0], event.y-old[1])
         old[0]=event.x
         old[1]=event.y
+
+def SlotagedesBateaux(event):
+    x1_1, y1_1, x2_1, y2_1 = can_full_plac.coords(Bateau1)
+    if 192<=x1_1 and 108<=y1_1 and 732>=x2_1 and 648>=y2_1:
+        minix1=((x1_1)-(192))
+        minix1_indice=192
+        minix1_indicetableau=0
+        for coordx in range(1,10):
+            if x1_1==(192+(60*coordx)):
+                if ((((x1_1)-(192+(60*coordx)))))<minix1:
+                    minix1=(((x1_1)-(192+(60*coordx))))
+                    minix1_indice=192+(60*coordx)
+                    minix1_indicetableau=coordx
+            if x1_1>(192+(60*coordx)):
+                if ((x1_1)-(192+(60*coordx)))<minix1:
+                    minix1=((x1_1)-(192+(60*coordx)))
+                    minix1_indice=192+(60*coordx)
+                    minix1_indicetableau=coordx
+            if x1_1<(192+(60*coordx)):
+                if ((((x1_1)-(192+(60*coordx))))*-1)<minix1:
+                    minix1=(((x1_1)-(192+(60*coordx)))*-1)
+                    minix1_indice=192+(60*coordx)
+                    minix1_indicetableau=coordx
+                    
+        miniy1=((y1_1)-(108))
+        miniy1_indice=108
+        miniy1_indicetableau=0
+        for coordy in range(1,10):
+            if y1_1==(108+(60*coordy)):
+                if ((((y1_1)-(108+(60*coordy)))))<miniy1:
+                    miniy1=(((y1_1)-(108+(60*coordy))))
+                    miniy1_indice=108+(60*coordy)
+                    miniy1_indicetableau=coordy
+            if y1_1>(108+(60*coordy)):
+                if ((y1_1)-(108+(60*coordy)))<miniy1:
+                    miniy1=((y1_1)-(108+(60*coordy)))
+                    miniy1_indice=108+(60*coordy)
+                    miniy1_indicetableau=coordy
+            else :
+                if ((((y1_1)-(108+(60*coordy))))*-1)<miniy1:
+                    miniy1=(((y1_1)-(108+(60*coordy)))*-1)
+                    miniy1_indice=108+(60*coordy)
+                    miniy1_indicetableau=coordy
+        minix2=((x2_1)-(192))
+        minix2_indice=192
+        minix2_indicetableau=0
+        for coordx in range(1,10):
+            if x2_1==(192+(60*coordx)):
+                if ((((x2_1)-(192+(60*coordx)))))<minix2:
+                    minix2=(((x2_1)-(192+(60*coordx))))
+                    minix2_indice=192+(60*coordx)
+                    minix2_indicetableau=coordx
+            if x2_1>(192+(60*coordx)):
+                if ((x2_1)-(192+(60*coordx)))<minix2:
+                    minix2=((x2_1)-(192+(60*coordx)))
+                    minix2_indice=192+(60*coordx)
+                    minix2_indicetableau=coordx
+            else:
+                if ((((x2_1)-(192+(60*coordx))))*-1)<minix2:
+                    minix2=(((x2_1)-(192+(60*coordx)))*-1)
+                    minix2_indice=192+(60*coordx)
+                    minix2_indicetableau=coordx
+                    
+        miniy2=((y2_1)-(108))
+        miniy2_indice=108
+        miniy2_indicetableau=0
+        for coordy in range(1,10):
+            if y2_1==(108+(60*coordy)):
+                if ((((y2_1)-(108+(60*coordy)))))<miniy2:
+                    miniy2=(((y2_1)-(108+(60*coordy))))
+                    miniy2_indice=108+(60*coordy)
+                    miniy2_indicetableau=coordy
+            if y2_1>(108+(60*coordy)):
+                if ((y2_1)-(108+(60*coordy)))<miniy2:
+                    print(miniy2)
+                    miniy2=((y2_1)-(108+(60*coordy)))
+                    print(miniy2)
+                    miniy2_indice=108+(60*coordy)
+                    miniy2_indicetableau=coordy
+            else:
+                if ((((y2_1)-(108+(60*coordy))))*-1)<miniy2:
+                    print(miniy2)
+                    miniy2=(((y2_1)-(108+(60*coordy)))*-1)
+                    print(miniy2)
+                    miniy2_indice=108+(60*coordy)
+                    miniy2_indicetableau=coordy
+        
+        verificationbateau=True
+        for i in range(minix1_indicetableau,minix1_indicetableau):
+            for j in range(miniy1_indicetableau, miniy2_indicetableau):
+                if GRILLE_PlacementBateaux[i][j]==1:
+                    verificationbateau=False
+                else:
+                    GRILLE_PlacementBateaux[i][j]=1
+        if verificationbateau==True:
+            can_full_plac.coords(Bateau1, minix1_indice, miniy1_indice, minix2_indice, miniy2_indice)
+        else:
+            can_full_plac.coords(Bateau1, 1440, 810, 1440+(x2_1-x1_1), 810+(y2_1-y1_1))
+        
 
 
 def show():
