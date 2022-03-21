@@ -63,11 +63,15 @@ global Bateau3
 global Bateau4
 global Bateau5
 
+ 
 Bateau1= can_full_plac.create_rectangle(960,108,960+(5*CASE_TAIL_Placement),108+CASE_TAIL_Placement, fill="black")
 Bateau2= can_full_plac.create_rectangle(960,216,960+(4*CASE_TAIL_Placement),216+CASE_TAIL_Placement, fill="black")
 Bateau3= can_full_plac.create_rectangle(960,324,960+(3*CASE_TAIL_Placement),324+CASE_TAIL_Placement, fill="black")
 Bateau4= can_full_plac.create_rectangle(960,432,960+(3*CASE_TAIL_Placement),432+CASE_TAIL_Placement, fill="black")
 Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+CASE_TAIL_Placement, fill="black")
+
+global Bateau
+Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
 
 global old
 old=[None,None]
