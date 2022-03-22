@@ -49,6 +49,8 @@ def PlacementBateaux():
     can_full_plac.pack()
     BoutonCommencer= Button(frame2, width=10, height=2,text="commencer", command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
+    BoutonReset= Button(frame2, width=10, height=2, text="reset", command=SlotagedesBateauxReset)
+    BoutonReset.place(relx=0.40, rely=0.75, anchor=CENTER)
     can_full_plac.bind("<B1-Motion>",glisser)
     can_full_plac.bind("<Button-1>",clic)
     can_full_plac.bind("<Button-3>",RotationBateau)
@@ -108,7 +110,6 @@ def glisser(event):
 def SlotagedesBateaux(event):
     verificationbateau=True
     compt=0
-    Bateauslot=[False,False,False,False,False]
     for i in range(len(Bateau)):
         x1_1, y1_1, x2_1, y2_1 = can_full_plac.coords(Bateau[i])
         if 192<=x1_1 and 108<=y1_1 and 732>=x2_1 and 648>=y2_1:
@@ -193,29 +194,30 @@ def SlotagedesBateaux(event):
             for i2 in range(minix1_indicetableau,minix2_indicetableau):
                 for j2 in range(miniy1_indicetableau, miniy2_indicetableau):
                     if GRILLE_PlacementBateaux[i2][j2]==0:
-                        verificationbateau=True
                         GRILLE_PlacementBateaux[i2][j2]=1
-                        
-            if verificationbateau==False and Bateauslot[i]==True:
-                can_full_plac.coords(Bateau[i], minix1_indice, miniy1_indice, minix2_indice, miniy2_indice)
-                Bateauslot[i]=True
-                print("a")
-            if verificationbateau==False and Bateauslot[i]==False:
-                can_full_plac.coords(Bateau[i], 1260, 630, 1260+(x2_1-x1_1), 630+(y2_1-y1_1))
-                print("b")
+                    else:
+                        verificationbateau=False
+            if verificationbateau==True:
+                can_full_plac.coords(Bateau[i],0,0,0,0)
+                for l in range(len(GRILLE_PlacementBateaux)):
+                    for c in range(len(GRILLE_PlacementBateaux[l])):
+                        print(GRILLE_PlacementBateaux[c][l], end="")
+                        if GRILLE_PlacementBateaux[c][l]==1:
+                            can_full_plac.create_rectangle(192+(CASE_TAIL_Placement*c),108+(CASE_TAIL_Placement*l),(192+(CASE_TAIL_Placement*c))+60,(108+(CASE_TAIL_Placement*l))+60, fill="black")
+                    print("")
             else:
-                can_full_plac.coords(Bateau[i], minix1_indice, miniy1_indice, minix2_indice, miniy2_indice)
-                Bateauslot[i]=True
-                print("a")
-            compt=compt+1
-            print(compt)
-            """
-            for l in range(len(GRILLE_PlacementBateaux)):
-                for c in range(len(GRILLE_PlacementBateaux[l])):
-                    print(GRILLE_PlacementBateaux[c][l], end="")
-                print("")
-            print(compt)
-            print("------------------------------------")
-            """
+                can_full_plac.coords(Bateau[i], 1260, 630, 1260+(x2_1-x1_1), 630+(y2_1-y1_1))
+
+def SlotagedesBateauxReset():
+    print("a")
+    GRILLE_PlacementBateaux = [[0 for i in range(9)] for i in range(9)]
+    Bateauslot=[False,False,False,False,False]
+    can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+    Bateau1= can_full_plac.create_rectangle(960,108,960+(5*CASE_TAIL_Placement),108+CASE_TAIL_Placement, fill="black")
+    Bateau2= can_full_plac.create_rectangle(960,216,960+(4*CASE_TAIL_Placement),216+CASE_TAIL_Placement, fill="black")
+    Bateau3= can_full_plac.create_rectangle(960,324,960+(3*CASE_TAIL_Placement),324+CASE_TAIL_Placement, fill="black")
+    Bateau4= can_full_plac.create_rectangle(960,432,960+(3*CASE_TAIL_Placement),432+CASE_TAIL_Placement, fill="black")
+    Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+CASE_TAIL_Placement, fill="black")
+    Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
 def show():
     menu()

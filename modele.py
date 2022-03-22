@@ -72,6 +72,8 @@ Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+
 
 global Bateau
 Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
+global Bateauslot
+Bateauslot=[False,False,False,False,False]
 
 global old
 old=[None,None]
