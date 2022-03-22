@@ -210,14 +210,26 @@ def SlotagedesBateaux(event):
 
 def SlotagedesBateauxReset():
     print("a")
+    global frame2
+    global can_full_plac
+    global GRILLE_PlacementBateaux
+    frame2.destroy()
+    frame2= Frame(main, width=1920,height=1080,bg="red")
+    frame2.pack()
     GRILLE_PlacementBateaux = [[0 for i in range(9)] for i in range(9)]
     Bateauslot=[False,False,False,False,False]
+    can_full_plac.destroy()
     can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+    for row in range(len(GRILLE_PlacementBateaux)):
+        for col in range(len(GRILLE_PlacementBateaux[row])):
+            can_full_plac.create_rectangle(192+(col * CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement),192+(col * CASE_TAIL_Placement + CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement + CASE_TAIL_Placement),outline="black",fill="white")
     Bateau1= can_full_plac.create_rectangle(960,108,960+(5*CASE_TAIL_Placement),108+CASE_TAIL_Placement, fill="black")
     Bateau2= can_full_plac.create_rectangle(960,216,960+(4*CASE_TAIL_Placement),216+CASE_TAIL_Placement, fill="black")
     Bateau3= can_full_plac.create_rectangle(960,324,960+(3*CASE_TAIL_Placement),324+CASE_TAIL_Placement, fill="black")
     Bateau4= can_full_plac.create_rectangle(960,432,960+(3*CASE_TAIL_Placement),432+CASE_TAIL_Placement, fill="black")
     Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+CASE_TAIL_Placement, fill="black")
     Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
+    PlacementBateaux()
+    
 def show():
     menu()
