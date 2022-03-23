@@ -11,23 +11,31 @@ from modele import *
 
 
 def etablirplateau():
+    global CAN_ALLIE
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
     fond.place(relx=0.5,rely=0.5,anchor=CENTER)
-    
+    global GRILLE_PlacementBateaux
     
     CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0) #highlightthickness=0 permet d'enlever les ombres (plus esthétique)
     CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER) #la grille allie est place parallèlement a la grille ennemi sur l'axe horizontale 
     for row in range(len(GRILLE_ALLIE)):
         for col in range(len(GRILLE_ALLIE[row])):
             CAN_ALLIE.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black") #utilisation de la taille des cellules pour definir le point d'origine en haut a gauche, vers le point d'arrivée en bas a droite
-                
+    
+    for l in range(len(GRILLE_PlacementBateaux)):
+        for c in range(len(GRILLE_PlacementBateaux[l])):
+            if GRILLE_PlacementBateaux[c][l]==1:
+                CAN_ALLIE.create_rectangle(CASE_TAIL*c,CASE_TAIL*l,(CASE_TAIL*c)+CASE_TAIL,(CASE_TAIL*l)+CASE_TAIL, fill="black", tags="a" + str(c) + str(l))  
+                GRILLE_ALLIE[c][l]=1
 
     CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
     CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
     for row in range(len(GRILLE_ENNEMI)):
         for col in range(len(GRILLE_ENNEMI[row])):
             CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black")
-            
+    CAN_ALLIE.bind("<Button-1>", tirallie)
+    CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER)
+    
 def OuvrirPlacementBateaux():
     frame1.destroy() #permet de détruire la frame1, c'est a dire le menu du jeu
     frame2.pack() #permet de positionner la frame2 en avant, c'est a dire la fenêtre du placement des Bateaux
@@ -41,9 +49,30 @@ def menu():
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
     
 def OuvrirLeCombat():
-    frame2.destroy() #permet de détruire la frame2, c'est a dire fenêtre du placement des Bateaux
-    frame3.pack() #permet de positionner la frame3 en avant, c'est a dire la zone de combat navale
-    etablirplateau() #appel la fonction permettant d'établir le plateau de la zone de combat navale
+    global comptb
+    global can_full_plac
+    if comptb!=0:
+        can_full_plac.create_text(1344, 810, anchor =CENTER, text ="faut placer tous les bateaux, avant de commencer", fill ="black", font="Arial 30 bold")
+    else:
+        frame2.destroy() #permet de détruire la frame2, c'est a dire fenêtre du placement des Bateaux
+        frame3.pack() #permet de positionner la frame3 en avant, c'est a dire la zone de combat navale
+        etablirplateau() #appel la fonction permettant d'établir le plateau de la zone de combat navale
+
+def tirallie(event):
+    global CASE_TAIL
+    global CAN_ALLIE
+    global compt1allie
+    mouseX = event.x
+    mouseY = event.y
+     
+    grilleX = int(mouseX / CASE_TAIL)
+    grilleY = int(mouseY / CASE_TAIL)
+
+    tag = "a" + str(grilleX) + str(grilleY)
+
+    CAN_ALLIE.itemconfig(tag, fill="red")
+    compt1allie=compt1allie-1
+   
 
 def PlacementBateaux():
     can_full_plac.pack()
@@ -108,9 +137,10 @@ def glisser(event):
         old[1]=event.y
 
 def SlotagedesBateaux(event):
-    verificationbateau=True
-    compt=0
+    global comptb
     for i in range(len(Bateau)):
+        verificationbateau=True
+        verifgrille=True
         x1_1, y1_1, x2_1, y2_1 = can_full_plac.coords(Bateau[i])
         if 192<=x1_1 and 108<=y1_1 and 732>=x2_1 and 648>=y2_1:
             minix1=((x1_1)-(192))
@@ -193,15 +223,21 @@ def SlotagedesBateaux(event):
                         miniy2_indicetableau=coordy
             for i2 in range(minix1_indicetableau,minix2_indicetableau):
                 for j2 in range(miniy1_indicetableau, miniy2_indicetableau):
-                    if GRILLE_PlacementBateaux[i2][j2]==0:
-                        GRILLE_PlacementBateaux[i2][j2]=1
-                    else:
+                    if GRILLE_PlacementBateaux[i2][j2]==1:
+                        verifgrille=False
                         verificationbateau=False
+            if verifgrille==True:
+                for i2 in range(minix1_indicetableau,minix2_indicetableau):
+                    for j2 in range(miniy1_indicetableau, miniy2_indicetableau):
+                        if GRILLE_PlacementBateaux[i2][j2]==0:
+                            GRILLE_PlacementBateaux[i2][j2]=1
+                        
+            
             if verificationbateau==True:
+                comptb=comptb-1
                 can_full_plac.coords(Bateau[i],0,0,0,0)
                 for l in range(len(GRILLE_PlacementBateaux)):
                     for c in range(len(GRILLE_PlacementBateaux[l])):
-                        print(GRILLE_PlacementBateaux[c][l], end="")
                         if GRILLE_PlacementBateaux[c][l]==1:
                             can_full_plac.create_rectangle(192+(CASE_TAIL_Placement*c),108+(CASE_TAIL_Placement*l),(192+(CASE_TAIL_Placement*c))+60,(108+(CASE_TAIL_Placement*l))+60, fill="black")
                     print("")

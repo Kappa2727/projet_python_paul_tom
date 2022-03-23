@@ -78,6 +78,12 @@ Bateauslot=[False,False,False,False,False]
 global old
 old=[None,None]
 
+global comptb
+comptb=5
+
+global compt1allie
+compt1allie=17
+
 
 
 
