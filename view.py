@@ -9,7 +9,6 @@ from modele import *
 
 
 
-
 def etablirplateau():
     global CAN_ALLIE
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
@@ -29,12 +28,21 @@ def etablirplateau():
                 GRILLE_ALLIE[c][l]=1
 
     CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
-    CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
+    
     for row in range(len(GRILLE_ENNEMI)):
         for col in range(len(GRILLE_ENNEMI[row])):
             CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black")
+    
+    for l in range(len(GRILLE_ENNEMI)):
+        for c in range(len(GRILLE_ENNEMI[l])):
+            if GRILLE_ENNEMI[l][c]==1:
+                CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, fill="black", tags="e" + str(c) + str(l))
+    
+    
+    
     CAN_ALLIE.bind("<Button-1>", tirallie)
     CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER)
+    CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
     
 def OuvrirPlacementBateaux():
     frame1.destroy() #permet de détruire la frame1, c'est a dire le menu du jeu
@@ -52,7 +60,7 @@ def OuvrirLeCombat():
     global comptb
     global can_full_plac
     if comptb!=0:
-        can_full_plac.create_text(1344, 810, anchor =CENTER, text ="faut placer tous les bateaux, avant de commencer", fill ="black", font="Arial 30 bold")
+        can_full_plac.create_text(1344, 810, anchor =CENTER, text ="tous les bateaux doivent être placer avant de commencer", fill ="black", font="Arial 30 bold")
     else:
         frame2.destroy() #permet de détruire la frame2, c'est a dire fenêtre du placement des Bateaux
         frame3.pack() #permet de positionner la frame3 en avant, c'est a dire la zone de combat navale
@@ -240,7 +248,6 @@ def SlotagedesBateaux(event):
                     for c in range(len(GRILLE_PlacementBateaux[l])):
                         if GRILLE_PlacementBateaux[c][l]==1:
                             can_full_plac.create_rectangle(192+(CASE_TAIL_Placement*c),108+(CASE_TAIL_Placement*l),(192+(CASE_TAIL_Placement*c))+60,(108+(CASE_TAIL_Placement*l))+60, fill="black")
-                    print("")
             else:
                 can_full_plac.coords(Bateau[i], 1260, 630, 1260+(x2_1-x1_1), 630+(y2_1-y1_1))
 

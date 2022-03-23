@@ -6,6 +6,7 @@ Created on Wed Mar  9 14:20:26 2022
 """
 
 from tkinter import *
+import random
 
 """
 définition des variables globals qui seront utilisée pour le jeu
@@ -83,6 +84,77 @@ comptb=5
 
 global compt1allie
 compt1allie=17
+
+global comptplacementbateauennemi
+comptplacementbateauennemi=5
+
+
+i=0
+while comptplacementbateauennemi!=0:
+    verif1=True
+    verif2=True
+    r1 = random.randint(0, 8)
+    r2 = random.randint(1,2)
+    r3 = random.randint(0, 3)
+    if r2==1:
+        if i!=3:
+            for j in range(r3,r3+5-i):
+                if GRILLE_ENNEMI[r1][j]==1:
+                    verif1=False
+        if i==3:
+            for j in range(r3,r3+5-2):
+                if GRILLE_ENNEMI[r1][j]==1:
+                    verif1=False
+        if i==4:
+            for j in range(r3,r3+5-3):
+                if GRILLE_ENNEMI[r1][j]==1:
+                    verif1=False
+    if r2==2:
+        if i!=3:
+            for j in range(r3,r3+(5-i)):
+                if GRILLE_ENNEMI[j][r1]==1:
+                    verif2=False
+        if i==3:
+            for j in range(r3,r3+5-2):
+                if GRILLE_ENNEMI[j][r1]==1:
+                    verif2=False
+        if i==4:
+            for j in range(r3,r3+5-3):
+                if GRILLE_ENNEMI[j][r1]==1:
+                    verif2=False
+
+    if r2==1 and verif1==True:
+        if i!=3:
+            for j in range(r3,r3+5-i):
+                GRILLE_ENNEMI[r1][j]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i==3:
+            for j in range(r3,r3+5-2):
+                GRILLE_ENNEMI[r1][j]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i==4:
+            for j in range(r3,r3+5-3):
+                GRILLE_ENNEMI[r1][j]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+                
+    if r2==2 and verif2==True:
+        if i!=3:
+            for j in range(r3,r3+5-i):
+                GRILLE_ENNEMI[j][r1]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i==3:
+            for j in range(r3,r3+5-2):
+                GRILLE_ENNEMI[j][r1]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i==4:
+            for j in range(r3,r3+5-3):
+                GRILLE_ENNEMI[j][r1]=1
+                comptplacementbateauennemi=comptplacementbateauennemi-1
+    if i==5:
+        i=0
+    
+    i=i+1
+    
 
 
 
