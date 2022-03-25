@@ -21,11 +21,16 @@ CASE_TAIL = CANVA_TAIL / 9 # 9, parce qu'il y'a 9 lignes et 9 colones dans une g
 global frame1 #la fenêtre utilisé pour le menu du jeu
 global frame2
 global frame3
+#img= PhotoImage(file='Bg-menu.png')
 frame1= Frame(main, width=1920,height=1080,bg="black")
 frame2= Frame(main, width=1920,height=1080,bg="red")
 frame3= Frame(main, width=1920,height=1080,bg="black")
 
+global can_menu
+can_menu=Canvas(frame1,width=1920, height=1080,bg="blue")
 
+global img
+img=PhotoImage(file='Bg-menu.png', master=main)
 
 
 
@@ -86,18 +91,19 @@ global compt1allie
 compt1allie=17
 
 global comptplacementbateauennemi
-comptplacementbateauennemi=5
+comptplacementbateauennemi=[]
 
 
 i=0
-while comptplacementbateauennemi!=0:
+while len(comptplacementbateauennemi)!=5:
     verif1=True
     verif2=True
+    verifcontient=False
     r1 = random.randint(0, 8)
     r2 = random.randint(1,2)
     r3 = random.randint(0, 3)
     if r2==1:
-        if i!=3:
+        if i!=3 and i!=4:
             for j in range(r3,r3+5-i):
                 if GRILLE_ENNEMI[r1][j]==1:
                     verif1=False
@@ -110,7 +116,7 @@ while comptplacementbateauennemi!=0:
                 if GRILLE_ENNEMI[r1][j]==1:
                     verif1=False
     if r2==2:
-        if i!=3:
+        if i!=3 and i!=4:
             for j in range(r3,r3+(5-i)):
                 if GRILLE_ENNEMI[j][r1]==1:
                     verif2=False
@@ -124,36 +130,68 @@ while comptplacementbateauennemi!=0:
                     verif2=False
 
     if r2==1 and verif1==True:
-        if i!=3:
-            for j in range(r3,r3+5-i):
-                GRILLE_ENNEMI[r1][j]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i!=3 and i!=4:
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-i):
+                    GRILLE_ENNEMI[r1][j]=1
+                print(comptplacementbateauennemi,"1")
+                
         if i==3:
-            for j in range(r3,r3+5-2):
-                GRILLE_ENNEMI[r1][j]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-2):
+                    GRILLE_ENNEMI[r1][j]=1
+                print(comptplacementbateauennemi,"2")
         if i==4:
-            for j in range(r3,r3+5-3):
-                GRILLE_ENNEMI[r1][j]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-3):
+                    GRILLE_ENNEMI[r1][j]=1
+                print(comptplacementbateauennemi,"3")
                 
     if r2==2 and verif2==True:
-        if i!=3:
-            for j in range(r3,r3+5-i):
-                GRILLE_ENNEMI[j][r1]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
+        if i!=3 and i!=4:
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-i):
+                    GRILLE_ENNEMI[j][r1]=1
+                print(comptplacementbateauennemi,"4")
         if i==3:
-            for j in range(r3,r3+5-2):
-                GRILLE_ENNEMI[j][r1]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-2):
+                    GRILLE_ENNEMI[j][r1]=1
+                print(comptplacementbateauennemi,"5")
         if i==4:
-            for j in range(r3,r3+5-3):
-                GRILLE_ENNEMI[j][r1]=1
-                comptplacementbateauennemi=comptplacementbateauennemi-1
-    if i==5:
+            for k in range(len(comptplacementbateauennemi)):
+                if i==comptplacementbateauennemi[k]:
+                    verifcontient=True
+            if verifcontient==False:
+                comptplacementbateauennemi.append(i)
+                for j in range(r3,r3+5-3):
+                    GRILLE_ENNEMI[j][r1]=1
+                print(comptplacementbateauennemi,"6")
+    if i==4:
         i=0
     
     i=i+1
+    print(i)
     
 
 

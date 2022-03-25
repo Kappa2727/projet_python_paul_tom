@@ -39,18 +39,25 @@ def etablirplateau():
                 CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, fill="black", tags="e" + str(c) + str(l))
     
     
-    
     CAN_ALLIE.bind("<Button-1>", tirallie)
     CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER)
     CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
     
 def OuvrirPlacementBateaux():
-    frame1.destroy() #permet de détruire la frame1, c'est a dire le menu du jeu
+    frame1.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
     frame2.pack() #permet de positionner la frame2 en avant, c'est a dire la fenêtre du placement des Bateaux
     PlacementBateaux() #appel la fonction permettant de placer les bateaux sur ça grille avant de commencer la partie
         
 def menu():
+    global img
     frame1.pack() #permet de positionner la frame2 en avant, c'est a dire le menu du jeu
+    
+    
+    can_menu.pack()
+    can_menu.create_image((960,540), image=img, anchor=CENTER)
+    
+    
+    
     Boutonjouer= Button(frame1, width=10, height=2,text="jouer", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
     BoutonQuitter= Button(frame1, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
     Boutonjouer.place(relx=0.5, rely=0.40, anchor=CENTER)
@@ -229,6 +236,8 @@ def SlotagedesBateaux(event):
                         miniy2=(((y2_1)-(108+(60*coordy)))*-1)
                         miniy2_indice=108+(60*coordy)
                         miniy2_indicetableau=coordy
+                        
+                        
             for i2 in range(minix1_indicetableau,minix2_indicetableau):
                 for j2 in range(miniy1_indicetableau, miniy2_indicetableau):
                     if GRILLE_PlacementBateaux[i2][j2]==1:
@@ -274,5 +283,3 @@ def SlotagedesBateauxReset():
     Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
     PlacementBateaux()
     
-def show():
-    menu()
