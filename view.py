@@ -11,15 +11,19 @@ from modele import *
 
 def etablirplateau():
     global CAN_ALLIE
+    global CAN_ENNEMI
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
     fond.place(relx=0.5,rely=0.5,anchor=CENTER)
     global GRILLE_PlacementBateaux
     
-    CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0) #highlightthickness=0 permet d'enlever les ombres (plus esthétique)
-    CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER) #la grille allie est place parallèlement a la grille ennemi sur l'axe horizontale 
+    CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
+    CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
+    CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER) #la grille allie est place parallèlement a la grille ennemi sur l'axe horizontale
+    CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
+     
     for row in range(len(GRILLE_ALLIE)):
         for col in range(len(GRILLE_ALLIE[row])):
-            CAN_ALLIE.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black") #utilisation de la taille des cellules pour definir le point d'origine en haut a gauche, vers le point d'arrivée en bas a droite
+            CAN_ALLIE.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black", tags="a2" + str(col) + str(row)) #utilisation de la taille des cellules pour definir le point d'origine en haut a gauche, vers le point d'arrivée en bas a droite
     
     for l in range(len(GRILLE_PlacementBateaux)):
         for c in range(len(GRILLE_PlacementBateaux[l])):
@@ -27,11 +31,11 @@ def etablirplateau():
                 CAN_ALLIE.create_rectangle(CASE_TAIL*c,CASE_TAIL*l,(CASE_TAIL*c)+CASE_TAIL,(CASE_TAIL*l)+CASE_TAIL, fill="black", tags="a" + str(c) + str(l))  
                 GRILLE_ALLIE[c][l]=1
 
-    CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
+    
     
     for row in range(len(GRILLE_ENNEMI)):
         for col in range(len(GRILLE_ENNEMI[row])):
-            CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black")
+            CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black", tags="e2" + str(col) + str(row))
     
     for l in range(len(GRILLE_ENNEMI)):
         for c in range(len(GRILLE_ENNEMI[l])):
@@ -39,9 +43,8 @@ def etablirplateau():
                 CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, fill="black", tags="e" + str(c) + str(l))
     
     
-    CAN_ALLIE.bind("<Button-1>", tirallie)
-    CAN_ALLIE.place(relx=0.5,rely=0.25,anchor=CENTER)
-    CAN_ENNEMI.place(relx=0.5,rely=0.75,anchor=CENTER)
+    CAN_ALLIE.bind("<Button-1>",tirallie)
+    
     
 def OuvrirPlacementBateaux():
     frame1.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
@@ -74,19 +77,66 @@ def OuvrirLeCombat():
         etablirplateau() #appel la fonction permettant d'établir le plateau de la zone de combat navale
 
 def tirallie(event):
-    global CASE_TAIL
+    global comptrecur
     global CAN_ALLIE
-    global compt1allie
-    mouseX = event.x
-    mouseY = event.y
-     
-    grilleX = int(mouseX / CASE_TAIL)
-    grilleY = int(mouseY / CASE_TAIL)
+    global GRILLE_ALLIE
+    verif3=True
+    if comptrecur%2==0:
+        global CASE_TAIL
+        global CAN_ALLIE
+        global compt1allie
+        mouseX = event.x
+        mouseY = event.y
+         
+        grilleX = int(mouseX / CASE_TAIL)
+        grilleY = int(mouseY / CASE_TAIL)
+    
+        tag = "a" + str(grilleX) + str(grilleY)
+        
+        CAN_ALLIE.itemconfig(tag, fill="red")
+        comptrecur=comptrecur+1
+        compt1allie=compt1allie-1
+    tirenemi()
 
-    tag = "a" + str(grilleX) + str(grilleY)
-
-    CAN_ALLIE.itemconfig(tag, fill="red")
-    compt1allie=compt1allie-1
+def tirenemi():
+    global comptrecur
+    global CAN_ENNEMI
+    global GRILLE_ENNEMI
+    verif3=True
+    if comptrecur%2!=0:
+        tr=0
+        while verif3==True:
+            print(tr)
+            global GRILLE_ENNEMI
+            global compt1ennemi
+            verif1=True
+            verif2=True
+            r1 = random.randint(0, 8)
+            r2 = random.randint(0, 8)
+            if GRILLE_ENNEMI[r1][r2]==2:
+                verif1=False
+            if GRILLE_ENNEMI[r1][r2]==3:
+                verif2=False
+        
+            if verif1==True and verif2==True:
+                if GRILLE_ENNEMI[r1][r2]==1:
+                    tag = "e" + str(r2) + str(r1)
+                    CAN_ENNEMI.itemconfig(tag, fill="red")
+                    comptrecur=comptrecur+1
+                    GRILLE_ENNEMI[r2][r1]=2
+                    compt1ennemi=compt1ennemi-1
+                    verif3=False
+                    print("b")
+                if GRILLE_ENNEMI[r1][r2]==0:
+                    tag = "e2" + str(r2) + str(r1)
+                    CAN_ENNEMI.itemconfig(tag, fill="gray")
+                    comptrecur=comptrecur+1
+                    GRILLE_ENNEMI[r2][r1]=3
+                    verif3=False
+                    print("c")
+            tr=tr+1
+                
+        
    
 
 def PlacementBateaux():

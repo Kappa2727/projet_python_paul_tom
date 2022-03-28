@@ -44,10 +44,12 @@ global can_full_plac
 can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
 
 global CAN_ALLIE
+CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0) #highlightthickness=0 permet d'enlever les ombres (plus esthétique)
 global GRILLE_ALLIE
 GRILLE_ALLIE = [[0 for i in range(9)] for i in range(9)] #le nombre de lignes et de colones qu'auront la grille de l'allié
 
 global CAN_ENNEMI
+CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
 global GRILLE_ENNEMI
 GRILLE_ENNEMI = [[0 for i in range(9)] for i in range(9)] #le nombre de lignes et de colones qu'auront la grille de l'ennemi
 
@@ -90,9 +92,14 @@ comptb=5
 global compt1allie
 compt1allie=17
 
+global compt1ennemi
+compt1ennemi=17
+
 global comptplacementbateauennemi
 comptplacementbateauennemi=[]
 
+global comptrecur
+comptrecur=0
 
 i=0
 while len(comptplacementbateauennemi)!=5:
@@ -138,7 +145,6 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-i):
                     GRILLE_ENNEMI[r1][j]=1
-                print(comptplacementbateauennemi,"1")
                 
         if i==3:
             for k in range(len(comptplacementbateauennemi)):
@@ -148,7 +154,6 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-2):
                     GRILLE_ENNEMI[r1][j]=1
-                print(comptplacementbateauennemi,"2")
         if i==4:
             for k in range(len(comptplacementbateauennemi)):
                 if i==comptplacementbateauennemi[k]:
@@ -157,7 +162,6 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-3):
                     GRILLE_ENNEMI[r1][j]=1
-                print(comptplacementbateauennemi,"3")
                 
     if r2==2 and verif2==True:
         if i!=3 and i!=4:
@@ -168,7 +172,6 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-i):
                     GRILLE_ENNEMI[j][r1]=1
-                print(comptplacementbateauennemi,"4")
         if i==3:
             for k in range(len(comptplacementbateauennemi)):
                 if i==comptplacementbateauennemi[k]:
@@ -177,7 +180,6 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-2):
                     GRILLE_ENNEMI[j][r1]=1
-                print(comptplacementbateauennemi,"5")
         if i==4:
             for k in range(len(comptplacementbateauennemi)):
                 if i==comptplacementbateauennemi[k]:
@@ -186,12 +188,10 @@ while len(comptplacementbateauennemi)!=5:
                 comptplacementbateauennemi.append(i)
                 for j in range(r3,r3+5-3):
                     GRILLE_ENNEMI[j][r1]=1
-                print(comptplacementbateauennemi,"6")
     if i==4:
         i=0
     
     i=i+1
-    print(i)
     
 
 
