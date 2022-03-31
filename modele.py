@@ -16,21 +16,26 @@ main= Tk()
 global CANVA_TAIL #la taille des canvas utilisée pour le jeu
 global CASE_TAIL #la taille des cellules du canva (cad: taille des carrès de la grille )
 CANVA_TAIL = 405 #360, car c'est divisible par 9 et que c'est une taille convenable
-CASE_TAIL = CANVA_TAIL / 9 # 9, parce qu'il y'a 9 lignes et 9 colones dans une grille de bataille navale, donc on divise par 9 la taille du canva utilisé pour afficher la grille
+CASE_TAIL = CANVA_TAIL / 9 
 
 global frame1 #la fenêtre utilisé pour le menu du jeu
 global frame2
 global frame3
+global frame4
 #img= PhotoImage(file='Bg-menu.png')
 frame1= Frame(main, width=1920,height=1080,bg="black")
 frame2= Frame(main, width=1920,height=1080,bg="red")
 frame3= Frame(main, width=1920,height=1080,bg="black")
+frame4= Frame(main, width=1920,height=1080,bg="red")
 
 global can_menu
 can_menu=Canvas(frame1,width=1920, height=1080,bg="blue")
 
 global img
 img=PhotoImage(file='Bg-menu.png', master=main)
+
+global can_full_fin
+can_full_fin= Canvas(frame4,width=1920,height=1080, bg="red",highlightthickness=0)
 
 
 
@@ -90,10 +95,10 @@ global comptb
 comptb=5
 
 global compt1allie
-compt1allie=17
+compt1allie=16
 
 global compt1ennemi
-compt1ennemi=17
+compt1ennemi=16
 
 global comptplacementbateauennemi
 comptplacementbateauennemi=[]

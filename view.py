@@ -15,6 +15,7 @@ def etablirplateau():
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
     fond.place(relx=0.5,rely=0.5,anchor=CENTER)
     global GRILLE_PlacementBateaux
+
     
     CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
     CAN_ENNEMI = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0)
@@ -29,23 +30,37 @@ def etablirplateau():
         for c in range(len(GRILLE_PlacementBateaux[l])):
             if GRILLE_PlacementBateaux[c][l]==1:
                 CAN_ALLIE.create_rectangle(CASE_TAIL*c,CASE_TAIL*l,(CASE_TAIL*c)+CASE_TAIL,(CASE_TAIL*l)+CASE_TAIL, fill="black", tags="a" + str(c) + str(l))  
-                GRILLE_ALLIE[c][l]=1
+                GRILLE_ALLIE[l][c]=1
 
     
     
     for row in range(len(GRILLE_ENNEMI)):
         for col in range(len(GRILLE_ENNEMI[row])):
-            CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black", tags="e2" + str(col) + str(row))
+            CAN_ENNEMI.create_rectangle(col * CASE_TAIL,row * CASE_TAIL,col * CASE_TAIL + CASE_TAIL,row * CASE_TAIL + CASE_TAIL,outline="black", tags="e_" + str(col) + str(row))
     
     for l in range(len(GRILLE_ENNEMI)):
         for c in range(len(GRILLE_ENNEMI[l])):
             if GRILLE_ENNEMI[l][c]==1:
                 CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, fill="black", tags="e" + str(c) + str(l))
     
+
+    CAN_ENNEMI.bind("<Button-1>",tirallie)
     
-    CAN_ALLIE.bind("<Button-1>",tirallie)
+
     
+
+def findejeu():
     
+    global compt1allie
+    global compt1ennemi
+    global can_full_fin
+    can_full_fin.pack()
+    if compt1ennemi==0:
+        can_full_fin.create_text(960, 540, anchor =CENTER, text ="Vous Avez Gagnez", fill ="black", font="Arial 50 bold")
+    else:  
+        can_full_fin.create_text(960, 540, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
+    BoutonQuitter= Button(frame4, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
+    BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
 def OuvrirPlacementBateaux():
     frame1.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
     frame2.pack() #permet de positionner la frame2 en avant, c'est a dire la fenêtre du placement des Bateaux
@@ -78,62 +93,69 @@ def OuvrirLeCombat():
 
 def tirallie(event):
     global comptrecur
-    global CAN_ALLIE
-    global GRILLE_ALLIE
     verif3=True
-    if comptrecur%2==0:
-        global CASE_TAIL
-        global CAN_ALLIE
-        global compt1allie
-        mouseX = event.x
-        mouseY = event.y
-         
-        grilleX = int(mouseX / CASE_TAIL)
-        grilleY = int(mouseY / CASE_TAIL)
-    
-        tag = "a" + str(grilleX) + str(grilleY)
+    global compt1allie
+    global compt1ennemi
+    if compt1allie == 0 or compt1ennemi==0:
+        global frame4
+        frame3.destroy()
+        frame4.pack()
+        findejeu()
+    else:
+        if comptrecur%2==0:
+            global CASE_TAIL
+            global CAN_ALLIE
+            global GRILLE_ENNEMI
+            global CAN_ENNEMI
+            
+            mouseX = event.x
+            mouseY = event.y
+             
+            grilleX = int(mouseX / CASE_TAIL)
+            grilleY = int(mouseY / CASE_TAIL)
         
-        CAN_ALLIE.itemconfig(tag, fill="red")
-        comptrecur=comptrecur+1
-        compt1allie=compt1allie-1
-    tirenemi()
+            tag = "e" + str(grilleY) + str(grilleX)
+            
+            CAN_ENNEMI.itemconfig(tag, fill="red")
+            comptrecur=comptrecur+1
+            compt1ennemi=compt1ennemi-1
+        tirenemi()
 
 def tirenemi():
     global comptrecur
-    global CAN_ENNEMI
-    global GRILLE_ENNEMI
+    
     verif3=True
     if comptrecur%2!=0:
         tr=0
         while verif3==True:
-            print(tr)
-            global GRILLE_ENNEMI
-            global compt1ennemi
+            global CAN_ALLIE
+            global GRILLE_ALLIE
+            global compt1allie
+            global compt1allie
             verif1=True
             verif2=True
             r1 = random.randint(0, 8)
             r2 = random.randint(0, 8)
-            if GRILLE_ENNEMI[r1][r2]==2:
+            if GRILLE_ALLIE[r1][r2]==2:
                 verif1=False
-            if GRILLE_ENNEMI[r1][r2]==3:
+            if GRILLE_ALLIE[r1][r2]==3:
                 verif2=False
         
             if verif1==True and verif2==True:
-                if GRILLE_ENNEMI[r1][r2]==1:
-                    tag = "e" + str(r2) + str(r1)
-                    CAN_ENNEMI.itemconfig(tag, fill="red")
+                if GRILLE_ALLIE[r1][r2]==1:
+                    tag = "a" + str(r2) + str(r1)
+                    CAN_ALLIE.itemconfig(tag, fill="red")
                     comptrecur=comptrecur+1
-                    GRILLE_ENNEMI[r2][r1]=2
-                    compt1ennemi=compt1ennemi-1
+                    GRILLE_ALLIE[r1][r2]=2
+                    compt1allie=compt1allie-1
                     verif3=False
-                    print("b")
-                if GRILLE_ENNEMI[r1][r2]==0:
-                    tag = "e2" + str(r2) + str(r1)
-                    CAN_ENNEMI.itemconfig(tag, fill="gray")
+                if GRILLE_ALLIE[r1][r2]==0:
+                    tag = "a2" + str(r2) + str(r1)
+                    CAN_ALLIE.itemconfig(tag, fill="gray")
                     comptrecur=comptrecur+1
-                    GRILLE_ENNEMI[r2][r1]=3
+                    GRILLE_ALLIE[r1][r2]=3
+                    compt1allie=compt1allie-1
                     verif3=False
-                    print("c")
             tr=tr+1
                 
         
