@@ -22,11 +22,16 @@ global frame1 #la fenêtre utilisé pour le menu du jeu
 global frame2
 global frame3
 global frame4
+global frame5
 #img= PhotoImage(file='Bg-menu.png')
 frame1= Frame(main, width=1920,height=1080,bg="black")
 frame2= Frame(main, width=1920,height=1080,bg="red")
 frame3= Frame(main, width=1920,height=1080,bg="black")
 frame4= Frame(main, width=1920,height=1080,bg="red")
+frame5= Frame(main, width=1920,height=1080,bg="blue")
+
+global can_choix
+can_choix=Canvas(frame5,width=1920, height=1080,bg="blue")
 
 global can_menu
 can_menu=Canvas(frame1,width=1920, height=1080,bg="blue")
@@ -95,10 +100,10 @@ global comptb
 comptb=5
 
 global compt1allie
-compt1allie=16
+compt1allie=17
 
 global compt1ennemi
-compt1ennemi=16
+compt1ennemi=17
 
 global comptplacementbateauennemi
 comptplacementbateauennemi=[]
@@ -106,97 +111,101 @@ comptplacementbateauennemi=[]
 global comptrecur
 comptrecur=0
 
-i=0
-while len(comptplacementbateauennemi)!=5:
-    verif1=True
-    verif2=True
-    verifcontient=False
-    r1 = random.randint(0, 8)
-    r2 = random.randint(1,2)
-    r3 = random.randint(0, 3)
-    if r2==1:
-        if i!=3 and i!=4:
-            for j in range(r3,r3+5-i):
-                if GRILLE_ENNEMI[r1][j]==1:
-                    verif1=False
-        if i==3:
-            for j in range(r3,r3+5-2):
-                if GRILLE_ENNEMI[r1][j]==1:
-                    verif1=False
-        if i==4:
-            for j in range(r3,r3+5-3):
-                if GRILLE_ENNEMI[r1][j]==1:
-                    verif1=False
-    if r2==2:
-        if i!=3 and i!=4:
-            for j in range(r3,r3+(5-i)):
-                if GRILLE_ENNEMI[j][r1]==1:
-                    verif2=False
-        if i==3:
-            for j in range(r3,r3+5-2):
-                if GRILLE_ENNEMI[j][r1]==1:
-                    verif2=False
-        if i==4:
-            for j in range(r3,r3+5-3):
-                if GRILLE_ENNEMI[j][r1]==1:
-                    verif2=False
-
-    if r2==1 and verif1==True:
-        if i!=3 and i!=4:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
+global placementalea
+def placementalea():
+    i=0
+    while len(comptplacementbateauennemi)!=5:
+        verif1=True
+        verif2=True
+        verifcontient=False
+        r1 = random.randint(0, 8)
+        r2 = random.randint(1,2)
+        r3 = random.randint(0, 3)
+        if r2==1:
+            if i!=3 and i!=4:
                 for j in range(r3,r3+5-i):
-                    GRILLE_ENNEMI[r1][j]=1
-                
-        if i==3:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+            if i==3:
                 for j in range(r3,r3+5-2):
-                    GRILLE_ENNEMI[r1][j]=1
-        if i==4:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+            if i==4:
                 for j in range(r3,r3+5-3):
-                    GRILLE_ENNEMI[r1][j]=1
-                
-    if r2==2 and verif2==True:
-        if i!=3 and i!=4:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
-                for j in range(r3,r3+5-i):
-                    GRILLE_ENNEMI[j][r1]=1
-        if i==3:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+        if r2==2:
+            if i!=3 and i!=4:
+                for j in range(r3,r3+(5-i)):
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
+            if i==3:
                 for j in range(r3,r3+5-2):
-                    GRILLE_ENNEMI[j][r1]=1
-        if i==4:
-            for k in range(len(comptplacementbateauennemi)):
-                if i==comptplacementbateauennemi[k]:
-                    verifcontient=True
-            if verifcontient==False:
-                comptplacementbateauennemi.append(i)
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
+            if i==4:
                 for j in range(r3,r3+5-3):
-                    GRILLE_ENNEMI[j][r1]=1
-    if i==4:
-        i=0
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
     
-    i=i+1
+        if r2==1 and verif1==True:
+            if i!=3 and i!=4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-i):
+                        GRILLE_ENNEMI[r1][j]=1
+                    
+            if i==3:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-2):
+                        GRILLE_ENNEMI[r1][j]=1
+            if i==4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-3):
+                        GRILLE_ENNEMI[r1][j]=1
+                    
+        if r2==2 and verif2==True:
+            if i!=3 and i!=4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-i):
+                        GRILLE_ENNEMI[j][r1]=1
+            if i==3:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-2):
+                        GRILLE_ENNEMI[j][r1]=1
+            if i==4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-3):
+                        GRILLE_ENNEMI[j][r1]=1
+        if i==4:
+            i=0
+        
+        i=i+1
+placementalea()
+
     
 
 

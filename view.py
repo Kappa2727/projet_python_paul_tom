@@ -56,15 +56,33 @@ def findejeu():
     global can_full_fin
     can_full_fin.pack()
     if compt1ennemi==0:
-        can_full_fin.create_text(960, 540, anchor =CENTER, text ="Vous Avez Gagnez", fill ="black", font="Arial 50 bold")
+        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Gagnez", fill ="black", font="Arial 50 bold")
     else:  
-        can_full_fin.create_text(960, 540, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
+        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
     BoutonQuitter= Button(frame4, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
+    BoutonReset= Button(frame4, width=10, height=2, text="reset", command=findujeuReset)
+    BoutonReset.place(relx=0.5, rely=0.5, anchor=CENTER)
 def OuvrirPlacementBateaux():
-    frame1.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
+    frame5.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
     frame2.pack() #permet de positionner la frame2 en avant, c'est a dire la fenêtre du placement des Bateaux
     PlacementBateaux() #appel la fonction permettant de placer les bateaux sur ça grille avant de commencer la partie
+      
+    
+    
+def choixdifficulte():
+    global frame1
+    global frame5
+    frame1.destroy()
+    frame5.pack()
+    global can_choix
+    can_choix.pack()
+    Boutonfacile= Button(frame5, width=10, height=2,text="Facile", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
+    Boutonmoyen= Button(frame5, width=10, height=2,text="moyen", command=main.destroy)
+    Boutondifficile= Button(frame5, width=10, height=2,text="difficile", command=main.destroy)
+    Boutonfacile.place(relx=0.4, rely=0.50, anchor=CENTER)
+    Boutonmoyen.place(relx=0.5, rely=0.50, anchor=CENTER)
+    Boutondifficile.place(relx=0.6, rely=0.50, anchor=CENTER)
         
 def menu():
     global img
@@ -76,11 +94,13 @@ def menu():
     
     
     
-    Boutonjouer= Button(frame1, width=10, height=2,text="jouer", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
+    Boutonjouer= Button(frame1, width=10, height=2,text="jouer", command=choixdifficulte) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
     BoutonQuitter= Button(frame1, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
     Boutonjouer.place(relx=0.5, rely=0.40, anchor=CENTER)
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
-    
+
+        
+
 def OuvrirLeCombat():
     global comptb
     global can_full_plac
@@ -96,34 +116,46 @@ def tirallie(event):
     verif3=True
     global compt1allie
     global compt1ennemi
-    if compt1allie == 0 or compt1ennemi==0:
-        global frame4
-        frame3.destroy()
-        frame4.pack()
-        findejeu()
-    else:
-        if comptrecur%2==0:
-            global CASE_TAIL
-            global CAN_ALLIE
-            global GRILLE_ENNEMI
-            global CAN_ENNEMI
-            
-            mouseX = event.x
-            mouseY = event.y
-             
-            grilleX = int(mouseX / CASE_TAIL)
-            grilleY = int(mouseY / CASE_TAIL)
+    if comptrecur%2==0:
+        global CASE_TAIL
+        global CAN_ALLIE
+        global GRILLE_ENNEMI
+        global CAN_ENNEMI
         
-            tag = "e" + str(grilleY) + str(grilleX)
-            
-            CAN_ENNEMI.itemconfig(tag, fill="red")
-            comptrecur=comptrecur+1
-            compt1ennemi=compt1ennemi-1
+        mouseX = event.x
+        mouseY = event.y
+        verif1=True
+        verif2=True
+        grilleX = int(mouseX / CASE_TAIL)
+        grilleY = int(mouseY / CASE_TAIL)
+        if GRILLE_ENNEMI[grilleX][grilleY]==2:
+            verif1=False
+        if GRILLE_ENNEMI[grilleX][grilleY]==3:
+            verif2=False
+    
+        if verif1==True and verif2==True:
+            if GRILLE_ENNEMI[grilleX][grilleY]==1:
+                tag = "e" + str(grilleY) + str(grilleX)
+                CAN_ENNEMI.itemconfig(tag, fill="red")
+                GRILLE_ENNEMI[grilleX][grilleY]=2
+                compt1ennemi=compt1ennemi-1
+                CAN_ENNEMI.bind("<Button-1>",tirallie)
+            if GRILLE_ENNEMI[grilleX][grilleY]==0:
+                tag = "e_" + str(grilleX) + str(grilleY)
+                CAN_ENNEMI.itemconfig(tag, fill="gray")
+                comptrecur=comptrecur+1
+                GRILLE_ENNEMI[grilleX][grilleY]=3
+        if compt1allie == 0 or compt1ennemi==0:
+            global frame4
+            frame3.destroy()
+            frame4.pack()
+            findejeu()
         tirenemi()
 
 def tirenemi():
     global comptrecur
-    
+    global compt1allie
+    global compt1ennemi
     verif3=True
     if comptrecur%2!=0:
         tr=0
@@ -147,6 +179,7 @@ def tirenemi():
                     CAN_ALLIE.itemconfig(tag, fill="red")
                     GRILLE_ALLIE[r1][r2]=2
                     compt1allie=compt1allie-1
+                    print(compt1allie)
                     verif3=False
                     tirenemi()
                 if GRILLE_ALLIE[r1][r2]==0:
@@ -156,6 +189,11 @@ def tirenemi():
                     GRILLE_ALLIE[r1][r2]=3
                     verif3=False
             tr=tr+1
+        if compt1allie == 0 or compt1ennemi==0:
+            global frame4
+            frame3.destroy()
+            frame4.pack()
+            findejeu()
                 
         
    
@@ -336,6 +374,10 @@ def SlotagedesBateauxReset():
     global frame2
     global can_full_plac
     global GRILLE_PlacementBateaux
+    global GRILLE_ALLIE
+    global GRILLE_ENNEMI
+    global comptb
+    global frame4
     frame2.destroy()
     frame2= Frame(main, width=1920,height=1080,bg="red")
     frame2.pack()
@@ -352,5 +394,152 @@ def SlotagedesBateauxReset():
     Bateau4= can_full_plac.create_rectangle(960,432,960+(3*CASE_TAIL_Placement),432+CASE_TAIL_Placement, fill="black")
     Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+CASE_TAIL_Placement, fill="black")
     Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
+    comptb=5
     PlacementBateaux()
+
+def findujeuReset():
+    print("a")
+     #la fenêtre utilisé pour le menu du jeu
+    global frame3
+    global frame4
+    frame4.destroy()
+    frame3= Frame(main, width=1920,height=1080,bg="black")
+    frame4= Frame(main, width=1920,height=1080,bg="red")
+
+    global frame2
+    global can_full_plac
+    global GRILLE_PlacementBateaux
+    global GRILLE_ALLIE
+    global GRILLE_ENNEMI
+    global comptb
+    global comptrecur
+    global comptplacementbateauennemi
+    global Bateauslot
+    global Bateau
+    global Bateau1
+    global Bateau2
+    global Bateau3
+    global Bateau4
+    global Bateau5
+    global compt1allie
+    global placementalea
+    global can_full_fin
+    can_full_fin= Canvas(frame4,width=1920,height=1080, bg="red",highlightthickness=0)
+    compt1allie=17
+    
+    global compt1ennemi
+    compt1ennemi=17
+    GRILLE_ENNEMI = [[0 for i in range(9)] for i in range(9)]
+    GRILLE_ALLIE = [[0 for i in range(9)] for i in range(9)]
+    comptrecur=0
+    comptplacementbateauennemi=[]
+    frame2= Frame(main, width=1920,height=1080,bg="red")
+    frame2.pack()
+    GRILLE_PlacementBateaux = [[0 for i in range(9)] for i in range(9)]
+    Bateauslot=[False,False,False,False,False]
+    can_full_plac.destroy()
+    can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+    for row in range(len(GRILLE_PlacementBateaux)):
+        for col in range(len(GRILLE_PlacementBateaux[row])):
+            can_full_plac.create_rectangle(192+(col * CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement),192+(col * CASE_TAIL_Placement + CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement + CASE_TAIL_Placement),outline="black",fill="white")
+    Bateau1= can_full_plac.create_rectangle(960,108,960+(5*CASE_TAIL_Placement),108+CASE_TAIL_Placement, fill="black")
+    Bateau2= can_full_plac.create_rectangle(960,216,960+(4*CASE_TAIL_Placement),216+CASE_TAIL_Placement, fill="black")
+    Bateau3= can_full_plac.create_rectangle(960,324,960+(3*CASE_TAIL_Placement),324+CASE_TAIL_Placement, fill="black")
+    Bateau4= can_full_plac.create_rectangle(960,432,960+(3*CASE_TAIL_Placement),432+CASE_TAIL_Placement, fill="black")
+    Bateau5= can_full_plac.create_rectangle(960,540,960+(2*CASE_TAIL_Placement),540+CASE_TAIL_Placement, fill="black")
+    Bateau=[Bateau1,Bateau2,Bateau3,Bateau4,Bateau5]
+    comptb=5
+    i=0
+    while len(comptplacementbateauennemi)!=5:
+        verif1=True
+        verif2=True
+        verifcontient=False
+        r1 = random.randint(0, 8)
+        r2 = random.randint(1,2)
+        r3 = random.randint(0, 3)
+        if r2==1:
+            if i!=3 and i!=4:
+                for j in range(r3,r3+5-i):
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+            if i==3:
+                for j in range(r3,r3+5-2):
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+            if i==4:
+                for j in range(r3,r3+5-3):
+                    if GRILLE_ENNEMI[r1][j]==1:
+                        verif1=False
+        if r2==2:
+            if i!=3 and i!=4:
+                for j in range(r3,r3+(5-i)):
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
+            if i==3:
+                for j in range(r3,r3+5-2):
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
+            if i==4:
+                for j in range(r3,r3+5-3):
+                    if GRILLE_ENNEMI[j][r1]==1:
+                        verif2=False
+    
+        if r2==1 and verif1==True:
+            if i!=3 and i!=4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-i):
+                        GRILLE_ENNEMI[r1][j]=1
+                    
+            if i==3:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-2):
+                        GRILLE_ENNEMI[r1][j]=1
+            if i==4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-3):
+                        GRILLE_ENNEMI[r1][j]=1
+                    
+        if r2==2 and verif2==True:
+            if i!=3 and i!=4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-i):
+                        GRILLE_ENNEMI[j][r1]=1
+            if i==3:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-2):
+                        GRILLE_ENNEMI[j][r1]=1
+            if i==4:
+                for k in range(len(comptplacementbateauennemi)):
+                    if i==comptplacementbateauennemi[k]:
+                        verifcontient=True
+                if verifcontient==False:
+                    comptplacementbateauennemi.append(i)
+                    for j in range(r3,r3+5-3):
+                        GRILLE_ENNEMI[j][r1]=1
+        if i==4:
+            i=0
+        
+        i=i+1
+    PlacementBateaux()
+    
     
