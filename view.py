@@ -145,16 +145,15 @@ def tirenemi():
                 if GRILLE_ALLIE[r1][r2]==1:
                     tag = "a" + str(r2) + str(r1)
                     CAN_ALLIE.itemconfig(tag, fill="red")
-                    comptrecur=comptrecur+1
                     GRILLE_ALLIE[r1][r2]=2
                     compt1allie=compt1allie-1
                     verif3=False
+                    tirenemi()
                 if GRILLE_ALLIE[r1][r2]==0:
                     tag = "a2" + str(r2) + str(r1)
                     CAN_ALLIE.itemconfig(tag, fill="gray")
                     comptrecur=comptrecur+1
                     GRILLE_ALLIE[r1][r2]=3
-                    compt1allie=compt1allie-1
                     verif3=False
             tr=tr+1
                 
