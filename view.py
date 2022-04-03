@@ -6,7 +6,7 @@ Created on Wed Mar  9 14:20:26 2022
 """
 
 from modele import *
-
+import random
 
 
 def etablirplateau():
@@ -41,7 +41,7 @@ def etablirplateau():
     for l in range(len(GRILLE_ENNEMI)):
         for c in range(len(GRILLE_ENNEMI[l])):
             if GRILLE_ENNEMI[l][c]==1:
-                CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, fill="black", tags="e" + str(c) + str(l))
+                CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, outline="black", tags="e" + str(c) + str(l))
     
 
     CAN_ENNEMI.bind("<Button-1>",tirallie)
@@ -78,11 +78,50 @@ def choixdifficulte():
     global can_choix
     can_choix.pack()
     Boutonfacile= Button(frame5, width=10, height=2,text="Facile", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
-    Boutonmoyen= Button(frame5, width=10, height=2,text="moyen", command=main.destroy)
-    Boutondifficile= Button(frame5, width=10, height=2,text="difficile", command=main.destroy)
+    Boutonmoyen= Button(frame5, width=10, height=2,text="moyen", command=niveaumoyen)
+    Boutondifficile= Button(frame5, width=10, height=2,text="difficile", command=niveaudifficile)
     Boutonfacile.place(relx=0.4, rely=0.50, anchor=CENTER)
     Boutonmoyen.place(relx=0.5, rely=0.50, anchor=CENTER)
     Boutondifficile.place(relx=0.6, rely=0.50, anchor=CENTER)
+
+def niveaumoyen():
+    comptmoyen=[]
+    global GRILLE_ALLIE
+    i=0
+    while len(comptmoyen)!=20:
+        verif1=True
+        r5 = random.randint(0, 8)
+        r6 = random.randint(0, 8)
+        
+        if GRILLE_ALLIE[r5][r6]==1 or GRILLE_ALLIE[r5][r6]==4:
+            verif1=False
+        
+        if verif1==True:
+            comptmoyen.append(i)
+            GRILLE_ALLIE[r5][r6]=4
+        i=i+1
+    OuvrirPlacementBateaux()
+
+def niveaudifficile():
+    comptdifficile=[]
+    global GRILLE_ALLIE
+    i=0
+    while len(comptdifficile)!=35:
+        verif1=True
+        r5 = random.randint(0, 8)
+        r6 = random.randint(0, 8)
+        
+        if GRILLE_ALLIE[r5][r6]==1 or GRILLE_ALLIE[r5][r6]==4:
+            verif1=False
+        
+        if verif1==True:
+            GRILLE_ALLIE[r5][r6]=4
+            comptdifficile.append(i)
+            
+        i=i+1
+    OuvrirPlacementBateaux()
+    
+        
         
 def menu():
     global img
@@ -166,20 +205,23 @@ def tirenemi():
             global compt1allie
             verif1=True
             verif2=True
+            verif4=True
             r1 = random.randint(0, 8)
             r2 = random.randint(0, 8)
             if GRILLE_ALLIE[r1][r2]==2:
                 verif1=False
             if GRILLE_ALLIE[r1][r2]==3:
                 verif2=False
+            if GRILLE_ALLIE[r1][r2]==4:
+                verif4=False
+                print(tr)
         
-            if verif1==True and verif2==True:
+            if verif1==True and verif2==True and verif4==True:
                 if GRILLE_ALLIE[r1][r2]==1:
                     tag = "a" + str(r2) + str(r1)
                     CAN_ALLIE.itemconfig(tag, fill="red")
                     GRILLE_ALLIE[r1][r2]=2
                     compt1allie=compt1allie-1
-                    print(compt1allie)
                     verif3=False
                     tirenemi()
                 if GRILLE_ALLIE[r1][r2]==0:
@@ -402,9 +444,8 @@ def findujeuReset():
      #la fenêtre utilisé pour le menu du jeu
     global frame3
     global frame4
-    frame4.destroy()
-    frame3= Frame(main, width=1920,height=1080,bg="black")
-    frame4= Frame(main, width=1920,height=1080,bg="red")
+    global frame5
+    
 
     global frame2
     global can_full_plac
@@ -424,6 +465,17 @@ def findujeuReset():
     global compt1allie
     global placementalea
     global can_full_fin
+    
+    frame4.destroy()
+    frame2= Frame(main, width=1920,height=1080,bg="red")
+    frame3= Frame(main, width=1920,height=1080,bg="black")
+    frame4= Frame(main, width=1920,height=1080,bg="red")
+    frame5= Frame(main, width=1920,height=1080,bg="blue")
+    
+    global can_choix
+    can_choix=Canvas(frame5,width=1920, height=1080,bg="blue")
+    
+    frame5.pack()
     can_full_fin= Canvas(frame4,width=1920,height=1080, bg="red",highlightthickness=0)
     compt1allie=17
     
@@ -433,8 +485,6 @@ def findujeuReset():
     GRILLE_ALLIE = [[0 for i in range(9)] for i in range(9)]
     comptrecur=0
     comptplacementbateauennemi=[]
-    frame2= Frame(main, width=1920,height=1080,bg="red")
-    frame2.pack()
     GRILLE_PlacementBateaux = [[0 for i in range(9)] for i in range(9)]
     Bateauslot=[False,False,False,False,False]
     can_full_plac.destroy()
@@ -540,6 +590,6 @@ def findujeuReset():
             i=0
         
         i=i+1
-    PlacementBateaux()
+    choixdifficulte()
     
     

@@ -108,6 +108,7 @@ compt1ennemi=17
 global comptplacementbateauennemi
 comptplacementbateauennemi=[]
 
+
 global comptrecur
 comptrecur=0
 
