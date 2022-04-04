@@ -54,14 +54,15 @@ def findejeu():
     global compt1allie
     global compt1ennemi
     global can_full_fin
+    global imgBoutqframe1
     can_full_fin.pack()
     if compt1ennemi==0:
         can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Gagnez", fill ="black", font="Arial 50 bold")
     else:  
         can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
-    BoutonQuitter= Button(frame4, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
+    BoutonQuitter= Button(frame4, width=200, height=100,image=imgBoutqframe1, command=main.destroy) #un bouton qui permet de  fermer le jeu
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
-    BoutonReset= Button(frame4, width=10, height=2, text="reset", command=findujeuReset)
+    BoutonReset= Button(frame4, width=10, height=2, text="recommencer", command=findujeuReset)
     BoutonReset.place(relx=0.5, rely=0.5, anchor=CENTER)
 def OuvrirPlacementBateaux():
     frame5.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
@@ -124,17 +125,19 @@ def niveaudifficile():
         
         
 def menu():
-    global img
+    global imgfondframe1
+    global imgBoutjframe1
+    global imgBoutqframe1
     frame1.pack() #permet de positionner la frame2 en avant, c'est a dire le menu du jeu
     
     
     can_menu.pack()
-    can_menu.create_image((960,540), image=img, anchor=CENTER)
+    can_menu.create_image((960,540), image=imgfondframe1, anchor=CENTER)
     
     
     
-    Boutonjouer= Button(frame1, width=10, height=2,text="jouer", command=choixdifficulte) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
-    BoutonQuitter= Button(frame1, width=10, height=2,text="quitter", command=main.destroy) #un bouton qui permet de  fermer le jeu
+    Boutonjouer= Button(frame1, width=200, height=100,image=imgBoutjframe1, command=choixdifficulte) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
+    BoutonQuitter= Button(frame1, width=200, height=100,image=imgBoutqframe1, command=main.destroy) #un bouton qui permet de  fermer le jeu
     Boutonjouer.place(relx=0.5, rely=0.40, anchor=CENTER)
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
 
@@ -242,7 +245,8 @@ def tirenemi():
 
 def PlacementBateaux():
     can_full_plac.pack()
-    BoutonCommencer= Button(frame2, width=10, height=2,text="commencer", command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
+    global imgBoutcframe1
+    BoutonCommencer= Button(frame2, width=200, height=100,image=imgBoutcframe1, command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
     BoutonReset= Button(frame2, width=10, height=2, text="reset", command=SlotagedesBateauxReset)
     BoutonReset.place(relx=0.40, rely=0.75, anchor=CENTER)

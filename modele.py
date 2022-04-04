@@ -36,8 +36,17 @@ can_choix=Canvas(frame5,width=1920, height=1080,bg="blue")
 global can_menu
 can_menu=Canvas(frame1,width=1920, height=1080,bg="blue")
 
-global img
-img=PhotoImage(file='Bg-menu.png', master=main)
+global imgfondframe1
+imgfondframe1=PhotoImage(file='Bg-menu.png', master=main)
+
+global imgBoutjframe1
+imgBoutjframe1=PhotoImage(file='Play-button2.gif', master=main)
+
+global imgBoutqframe1
+imgBoutqframe1=PhotoImage(file='Leave-button2.gif', master=main)
+
+global imgBoutcframe1
+imgBoutcframe1=PhotoImage(file='Start-button2.gif', master=main)
 
 global can_full_fin
 can_full_fin= Canvas(frame4,width=1920,height=1080, bg="red",highlightthickness=0)
