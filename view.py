@@ -7,13 +7,16 @@ Created on Wed Mar  9 14:20:26 2022
 
 from modele import *
 import random
-
+import time
 
 def etablirplateau():
     global CAN_ALLIE
     global CAN_ENNEMI
+    
     fond= Canvas(frame3,width=1980,height=1080,bg="black") #le fond du jeu
+    can_full_eta= Canvas(frame3,width=288,height=162, bg="blue")
     fond.place(relx=0.5,rely=0.5,anchor=CENTER)
+    can_full_eta.place(relx=0.75, rely=0.5, anchor=CENTER)
     global GRILLE_PlacementBateaux
 
     
@@ -43,7 +46,8 @@ def etablirplateau():
             if GRILLE_ENNEMI[l][c]==1:
                 CAN_ENNEMI.create_rectangle(CASE_TAIL*l,CASE_TAIL*c,(CASE_TAIL*l)+CASE_TAIL,(CASE_TAIL*c)+CASE_TAIL, outline="black", tags="e" + str(c) + str(l))
     
-
+    
+    can_full_eta.create_text(1584, 621, anchor =CENTER, text ="Vous Avez Gagner", fill ="red", font="Arial 50 bold")
     CAN_ENNEMI.bind("<Button-1>",tirallie)
     
 
@@ -57,8 +61,8 @@ def findejeu():
     global imgBoutqframe1
     can_full_fin.pack()
     if compt1ennemi==0:
-        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Gagnez", fill ="black", font="Arial 50 bold")
-    else:  
+        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Gagner", fill ="black", font="Arial 50 bold")
+    else:
         can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
     BoutonQuitter= Button(frame4, width=200, height=100,image=imgBoutqframe1, command=main.destroy) #un bouton qui permet de  fermer le jeu
     BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
@@ -163,7 +167,7 @@ def tirallie(event):
         global CAN_ALLIE
         global GRILLE_ENNEMI
         global CAN_ENNEMI
-        
+        print
         mouseX = event.x
         mouseY = event.y
         verif1=True
@@ -179,12 +183,14 @@ def tirallie(event):
             if GRILLE_ENNEMI[grilleX][grilleY]==1:
                 tag = "e" + str(grilleY) + str(grilleX)
                 CAN_ENNEMI.itemconfig(tag, fill="red")
+                CAN_ENNEMI.update()
                 GRILLE_ENNEMI[grilleX][grilleY]=2
                 compt1ennemi=compt1ennemi-1
                 CAN_ENNEMI.bind("<Button-1>",tirallie)
             if GRILLE_ENNEMI[grilleX][grilleY]==0:
                 tag = "e_" + str(grilleX) + str(grilleY)
                 CAN_ENNEMI.itemconfig(tag, fill="gray")
+                CAN_ENNEMI.update()
                 comptrecur=comptrecur+1
                 GRILLE_ENNEMI[grilleX][grilleY]=3
         if compt1allie == 0 or compt1ennemi==0:
@@ -217,7 +223,7 @@ def tirenemi():
                 verif2=False
             if GRILLE_ALLIE[r1][r2]==4:
                 verif4=False
-                print(tr)
+
         
             if verif1==True and verif2==True and verif4==True:
                 if GRILLE_ALLIE[r1][r2]==1:
@@ -416,7 +422,6 @@ def SlotagedesBateaux(event):
                 can_full_plac.coords(Bateau[i], 1260, 630, 1260+(x2_1-x1_1), 630+(y2_1-y1_1))
 
 def SlotagedesBateauxReset():
-    print("a")
     global frame2
     global can_full_plac
     global GRILLE_PlacementBateaux
@@ -444,7 +449,6 @@ def SlotagedesBateauxReset():
     PlacementBateaux()
 
 def findujeuReset():
-    print("a")
      #la fenêtre utilisé pour le menu du jeu
     global frame3
     global frame4

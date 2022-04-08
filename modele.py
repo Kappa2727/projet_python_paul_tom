@@ -26,7 +26,7 @@ global frame5
 #img= PhotoImage(file='Bg-menu.png')
 frame1= Frame(main, width=1920,height=1080,bg="black")
 frame2= Frame(main, width=1920,height=1080,bg="red")
-frame3= Frame(main, width=1920,height=1080,bg="black")
+frame3= Frame(main, width=1920,height=1080,bg="red")
 frame4= Frame(main, width=1920,height=1080,bg="red")
 frame5= Frame(main, width=1920,height=1080,bg="blue")
 
@@ -61,6 +61,9 @@ etablissement des variables globals pour le canva/grille allié et ennemi mais a
 
 global can_full_plac
 can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+
+global can_full_eta
+
 
 global CAN_ALLIE
 CAN_ALLIE = Canvas(frame3,width=CANVA_TAIL,height=CANVA_TAIL,bg="white",highlightthickness=0) #highlightthickness=0 permet d'enlever les ombres (plus esthétique)
@@ -120,6 +123,8 @@ comptplacementbateauennemi=[]
 
 global comptrecur
 comptrecur=0
+
+
 
 global placementalea
 def placementalea():
