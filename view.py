@@ -19,6 +19,8 @@ def etablirplateau():
     global GRILLE_PlacementBateaux
     global compt1allie
     global imgBoutqframe1
+    global imgfondcombat
+    fond.create_image((960,540), image=imgfondcombat, anchor=CENTER)
     pygame.mixer.stop
     pygame.mixer.music.load("bruitcombat.mp3")
     pygame.mixer.music.set_volume(0.7)
@@ -68,17 +70,21 @@ def findejeu():
     global compt1ennemi
     global can_full_fin
     global imgBoutqframe1
+    global imgBoutRecommencer
+    global imgfondetabli
+
     pygame.mixer.music.load("musicdebut.mp3")
     pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(loops=-1)
     can_full_fin.pack()
+    can_full_fin.create_image((960,540), image=imgfondetabli, anchor=CENTER)
     if compt1ennemi==0:
-        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Gagner", fill ="black", font="Arial 50 bold")
+        can_full_fin.create_text(960, 400, anchor =CENTER, text ="Vous Avez Gagner", fill ="black", font="Arial 50 bold")
     else:
-        can_full_fin.create_text(960, 440, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
+        can_full_fin.create_text(960, 400, anchor =CENTER, text ="Vous Avez Perdu", fill ="black", font="Arial 50 bold")
     BoutonQuitter= Button(frame4, width=200, height=100,image=imgBoutqframe1, command=quitterjeu) #un bouton qui permet de  fermer le jeu
-    BoutonQuitter.place(relx=0.5, rely=0.60, anchor=CENTER)
-    BoutonReset= Button(frame4, width=10, height=2, text="recommencer", command=findujeuReset)
+    BoutonQuitter.place(relx=0.5, rely=0.65, anchor=CENTER)
+    BoutonReset= Button(frame4, width=200, height=100, image=imgBoutRecommencer, command=findujeuReset)
     BoutonReset.place(relx=0.5, rely=0.5, anchor=CENTER)
 def OuvrirPlacementBateaux():
     frame5.destroy() #permet de détruire la frame1, c'est a dire le menru du jeu
@@ -93,13 +99,20 @@ def choixdifficulte():
     frame1.destroy()
     frame5.pack()
     global can_choix
+    global imgBoutFacile
+    global imgBoutMoyen
+    global imgBoutDifficile
+    global imgchoixDif
+    global imgfondetabli
     can_choix.pack()
-    Boutonfacile= Button(frame5, width=10, height=2,text="Facile", command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
-    Boutonmoyen= Button(frame5, width=10, height=2,text="moyen", command=niveaumoyen)
-    Boutondifficile= Button(frame5, width=10, height=2,text="difficile", command=niveaudifficile)
-    Boutonfacile.place(relx=0.4, rely=0.50, anchor=CENTER)
+    Boutonfacile= Button(frame5, width=200, height=100,image=imgBoutFacile, command=OuvrirPlacementBateaux) #un bouton jouer qui permet d'appeler la fonction OuvrirPlacementBateaux
+    Boutonmoyen= Button(frame5, width=200, height=100,image=imgBoutMoyen, command=niveaumoyen)
+    Boutondifficile= Button(frame5, width=200, height=100,image=imgBoutDifficile, command=niveaudifficile)
+    can_choix.create_image((960,540), image=imgfondetabli, anchor=CENTER)
+    can_choix.create_image((960,300), image=imgchoixDif, anchor=CENTER)
+    Boutonfacile.place(relx=0.35, rely=0.50, anchor=CENTER)
     Boutonmoyen.place(relx=0.5, rely=0.50, anchor=CENTER)
-    Boutondifficile.place(relx=0.6, rely=0.50, anchor=CENTER)
+    Boutondifficile.place(relx=0.65, rely=0.50, anchor=CENTER)
 
 def niveaumoyen():
     comptmoyen=[]
@@ -170,7 +183,7 @@ def OuvrirLeCombat():
     global comptb
     global can_full_plac
     if comptb!=0:
-        can_full_plac.create_text(1344, 810, anchor =CENTER, text ="tous les bateaux doivent être placer avant de commencer", fill ="black", font="Arial 30 bold")
+        can_full_plac.create_text(1344, 870, anchor =CENTER, text ="tous les bateaux doivent être placer avant de commencer", fill ="black", font="Arial 30 bold")
     else:
         frame2.destroy() #permet de détruire la frame2, c'est a dire fenêtre du placement des Bateaux
         frame3.pack() #permet de positionner la frame3 en avant, c'est a dire la zone de combat navale
@@ -181,13 +194,13 @@ def tirallie(event):
     verif3=True
     global compt1allie
     global compt1ennemi
+    global frame3
 
     if comptrecur%2==0:
         global CASE_TAIL
         global CAN_ALLIE
         global GRILLE_ENNEMI
         global CAN_ENNEMI
-        print
         mouseX = event.x
         mouseY = event.y
         verif1=True
@@ -282,10 +295,12 @@ def tirenemi():
 def PlacementBateaux():
     can_full_plac.pack()
     global imgBoutcframe1
+    global imgBoutReset
+    global imgfondetabli
     BoutonCommencer= Button(frame2, width=200, height=100,image=imgBoutcframe1, command=OuvrirLeCombat) #un bouton qui permet d'appeler la fonction OuvrirLeCombat
     BoutonCommencer.place(relx=0.5,rely=0.75,anchor=CENTER)
-    BoutonReset= Button(frame2, width=10, height=2, text="reset", command=SlotagedesBateauxReset)
-    BoutonReset.place(relx=0.40, rely=0.75, anchor=CENTER)
+    BoutonReset= Button(frame2, width=200, height=100, image=imgBoutReset, command=SlotagedesBateauxReset)
+    BoutonReset.place(relx=0.35, rely=0.75, anchor=CENTER)
     can_full_plac.bind("<B1-Motion>",glisser)
     can_full_plac.bind("<Button-1>",clic)
     can_full_plac.bind("<Button-3>",RotationBateau)
@@ -459,6 +474,7 @@ def SlotagedesBateauxReset():
     global GRILLE_ENNEMI
     global comptb
     global frame4
+    global imgfondetabli
     frame2.destroy()
     frame2= Frame(main, width=1920,height=1080,bg="red")
     frame2.pack()
@@ -466,6 +482,7 @@ def SlotagedesBateauxReset():
     Bateauslot=[False,False,False,False,False]
     can_full_plac.destroy()
     can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+    can_full_plac.create_image((960,540), image=imgfondetabli, anchor=CENTER)
     for row in range(len(GRILLE_PlacementBateaux)):
         for col in range(len(GRILLE_PlacementBateaux[row])):
             can_full_plac.create_rectangle(192+(col * CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement),192+(col * CASE_TAIL_Placement + CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement + CASE_TAIL_Placement),outline="black",fill="white")
@@ -503,6 +520,7 @@ def findujeuReset():
     global compt1allie
     global placementalea
     global can_full_fin
+    global imgfondetabli
 
     frame4.destroy()
     frame2= Frame(main, width=1920,height=1080,bg="red")
@@ -527,6 +545,7 @@ def findujeuReset():
     Bateauslot=[False,False,False,False,False]
     can_full_plac.destroy()
     can_full_plac= Canvas(frame2,width=1920,height=1080, bg="red",highlightthickness=0)
+    can_full_plac.create_image((960,540), image=imgfondetabli, anchor=CENTER)
     for row in range(len(GRILLE_PlacementBateaux)):
         for col in range(len(GRILLE_PlacementBateaux[row])):
             can_full_plac.create_rectangle(192+(col * CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement),192+(col * CASE_TAIL_Placement + CASE_TAIL_Placement),108+(row * CASE_TAIL_Placement + CASE_TAIL_Placement),outline="black",fill="white")
